@@ -8,17 +8,39 @@
         <table id="container">
             <tbody>
                 <tr>
-                    <td id="main" style="max-width: 500px;">
+                    <td id="main" style="max-width: 600px;">
                         <div class="box">
                             <h2 class="title-text">WELCOME TO ASCIIGEN</h2>
-                            <
-                        </div>
-                        <div class="box">
-                            <p>Features:</p>
-                            <p>wooo</p>
+                            <p><span class="title-text">HOW TO USE: </span>Choose an image file or enter an image url and click Go to convert this image into text!</p>
+                            <span>File: </span>
+                            <input type="file" name="source">
+                            <input type="radio" id="fileinput" name="inputtype" checked>
+                            <label for="fileinput">File</label>
+                            <input type="radio" id="urlinput" name="inputtype">
+                            <label for="urlinput">URL</label>
+                            <p id="status" class="correcttext">Done!</p>
+                            <textarea id="output" anme="output" rows="30" cols="75">
+⣿⣿⣿⣿⣿⣿⣿⡿⠟⠛⠉⠉⠉⠉⠋⠉⠉⠙⠛⠛⠻⠿⢿⣿⣿⣿⣿⣿⣿⣿
+⣿⣿⣿⣿⠿⠋⠁⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠈⠉⠻⣿⣿⣿⣿⣿
+⣿⣿⡟⠁⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠙⢻⣿⣿⣿
+⣿⠏⠄⠄⠄⠄⠄⠄⠄⠄⢀⣔⢤⣄⡀⠄⡄⡀⠄⠄⠄⠄⠄⠄⠄⠄⠄⢻⣿⣿
+⠏⠄⠄⠄⠄⠄⠄⠄⢀⣀⣨⣵⣿⣿⣿⣿⣧⣦⣤⣀⣿⣷⡐⠄⠄⠄⠄⠄⢿⣿
+⠄⠄⠄⠄⠄⠄⠐⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣦⡀⠄⠄⠄⢚⣿
+⣆⠄⠄⠄⠄⠄⠄⢻⣿⣿⣿⣿⡿⠛⠛⠛⠛⣿⢿⣿⣿⣿⡿⢟⣻⣄⣤⣮⡝⣿
+⣿⠆⠄⠄⠄⠄⠄⠄⠄⠄⠉⠘⣿⡗⡕⣋⢉⣩⣽⣬⣭⣶⣿⣿⣿⣿⣝⣻⣷⣿
+⣿⣦⡀⠄⠄⠠⢀⠄⠄⠁⠄⠄⣿⣿⣶⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡟⣿
+⣿⣿⣿⡆⠄⠄⠰⣶⡗⠄⠄⠄⣿⣿⣿⣿⣦⣌⠙⠿⣿⣿⣿⣿⣿⣿⣿⡛⠱⢿
+⣿⣿⣿⣿⡀⠄⠄⠿⣿⠄⠄⠄⠨⡿⠿⠿⣿⣟⣿⣯⣹⣿⣿⣿⣿⣿⣿⣿⣦⡀
+⣿⣿⣿⣿⣷⠄⠄⠄⢷⣦⠄⠄⠐⢶⢾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇
+⣿⣿⣿⣿⣿⣧⡄⠄⠄⠉⠄⠄⠄⢉⣽⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠟⠄
+⣿⣿⣿⣿⣿⠟⠋⠄⠄⠄⠄⠄⠄⠈⠛⠿⠿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠋⠄⠄
+⣿⠿⠛⠉⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠘⠿⢿⣿⣿⣿⣿⣿⠿⠋⠄⠄⠄⠄
+                            </textarea>
+                            <!--  -->
                         </div>
                     </td>
-                    <td id="vault" style="max-width: 300px;">
+
+                    <td id="side-menu" style="max-width: 300px;">
                         <div class="box">
                             <h2 class="title-text">VAULT</h2>
                             <p>
@@ -26,6 +48,29 @@
                                 but I want that database experience on my resume.
                             </p>
                             <p class="aqua">Coming soon!</p>
+                        </div>
+                        <div class="box">
+                            <h2 class="title-text">ABOUT</h2>
+                            <a href="https://github.com/abdaalsy" target="_blank"><img id="pfp" title="my github" src="https://avatars.githubusercontent.com/u/91766228?v=4"></a>
+                            <p><span class="title-text">HELLO,</span> 
+                                I'm <span class="aqua">Abdaal</span>. I made this program back in early 2023 and recently had an idea to get it on the web. I made some improvements to the algorithm
+                                with the aim to improve visibility.
+                            </p>
+                            <p>Fun facts:</p>
+                            <ul>
+                                <li>I'm from Canada</li>
+                                <li>I study Computer Engineering at the University of Waterloo</li>
+                                <li>I like working with hardware</li>
+                                <li>I watch a lot of instagram reels</li>
+                            </ul>
+                            <p>This is my first website, tryna recreate the late 90s early 2000s look of websites. Credit goes to Ammar for the logo.</p>
+                            <p>- Abdaal</p>
+                        </div>
+                        <div class="box">
+                            <h2 class="title-text">My websites</h2>
+                            <ul>
+                                <li>Coming soon!</li>
+                            </ul>
                         </div>
                     </td>
                 </tr>
