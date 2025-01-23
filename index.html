@@ -11,7 +11,7 @@
                     <td id="main" style="max-width: 600px;">
                         <div class="box">
                             <h2 class="title-text">WELCOME TO ASCIIGEN</h2>
-                            <p><span class="title-text">HOW TO USE: </span>Choose an image file or enter an image url and click Go to convert this image into text!</p>
+                            <p>Choose an image file or enter an image url to convert this image into text! Supported file formats include PPM, PNG, JPEG, GIF, TIFF, and BMP.</p>
                             <span>File: </span>
                             <input type="file" name="source">
                             <input type="radio" id="fileinput" name="inputtype" checked>
@@ -36,18 +36,65 @@
 ⣿⣿⣿⣿⣿⠟⠋⠄⠄⠄⠄⠄⠄⠈⠛⠿⠿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠋⠄⠄
 ⣿⠿⠛⠉⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠘⠿⢿⣿⣿⣿⣿⣿⠿⠋⠄⠄⠄⠄
                             </textarea>
-                            <!--  -->
                         </div>
                     </td>
 
                     <td id="side-menu" style="max-width: 300px;">
-                        <div class="box">
+                        <div id="vault" class="box">
                             <h2 class="title-text">VAULT</h2>
                             <p>
-                                This is where information will be stored persistently. Gonna implement this hopefully for free with AWS databases. I could use cookies
-                                but I want that database experience on my resume.
+                                Enter your key to access up to <span class="aqua">10</span> previous conversions! Or, generate a key to begin saving your own.
                             </p>
-                            <p class="aqua">Coming soon!</p>
+                            <span>Key:</span>
+                            <input type="text" name="key-in" maxlength="8" style="width: 100px;">
+                            <input type="image" name="enter-key" src="button_unlock.png" width="70px">
+                            <p id="keystatus" class="errortext">Locked!</p>
+                            <table id="user-data">
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Date</th>
+                                </tr>
+                                <tr>
+                                    <td>Placeholder</td>
+                                    <td>Placeholder</td>
+                                </tr>
+                                <tr>
+                                    <td>Placeholder</td>
+                                    <td>Placeholder</td>
+                                </tr>
+                                <tr>
+                                    <td>Placeholder</td>
+                                    <td>Placeholder</td>
+                                </tr>
+                                <tr>
+                                    <td>Placeholder</td>
+                                    <td>Placeholder</td>
+                                </tr>
+                                <tr>
+                                    <td>Placeholder</td>
+                                    <td>Placeholder</td>
+                                </tr>
+                                <tr>
+                                    <td>Placeholder</td>
+                                    <td>Placeholder</td>
+                                </tr>
+                                <tr>
+                                    <td>Placeholder</td>
+                                    <td>Placeholder</td>
+                                </tr>
+                                <tr>
+                                    <td>Placeholder</td>
+                                    <td>Placeholder</td>
+                                </tr>
+                                <tr>
+                                    <td>Placeholder</td>
+                                    <td>Placeholder</td>
+                                </tr>
+                                <tr>
+                                    <td>Placeholder</td>
+                                    <td>Placeholder</td>
+                                </tr>
+                            </table>
                         </div>
                         <div class="box">
                             <h2 class="title-text">ABOUT</h2>
@@ -63,18 +110,22 @@
                                 <li>I like working with hardware</li>
                                 <li>I watch a lot of instagram reels</li>
                             </ul>
-                            <p>This is my first website, tryna recreate the late 90s early 2000s look of websites. Credit goes to Ammar for the logo.</p>
+                            <p>This is my first website, was trying to recreate the early 2000s look of the internet but ended up doing whatever this is. Credit goes to Ammar for the logo.</p>
                             <p>- Abdaal</p>
                         </div>
                         <div class="box">
                             <h2 class="title-text">My websites</h2>
                             <ul>
-                                <li>Coming soon!</li>
+                                <li>asciiweb (the website you're looking at)</li>
+                                <li><span class="aqua">Coming soon!</span></li>
                             </ul>
                         </div>
                     </td>
                 </tr>
             </tbody>
+            <tr>
+                <td>Last Updated: January 22, 2025</td>
+            </tr>
         </table>  
     </body>
 </html>
