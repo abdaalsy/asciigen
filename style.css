@@ -23,6 +23,14 @@ body {
     margin-right:auto;
 }
 
+#container tr {
+    vertical-align: top;
+}
+
+.side-menu {
+    max-width: 300px;
+}
+
 .aqua {
     color: aquamarine;
 }
@@ -100,4 +108,30 @@ fieldset[class~="input-type"] {
     position: fixed;
     top: 0;
     left: 0;
+}
+
+.vault-email {
+    width: 75%;
+}
+
+#unlock {
+    width: 25%;
+}
+
+#vault-data {
+    width: 100%;
+    text-align: left;
+    background-color: rgba(0, 0, 0, 0.6);
+}
+
+table.alternating tr:nth-child(odd)  {
+    background-color: rgba(50, 50, 50, 0.6);
+}
+
+table.alternating thead tr {
+    background-color: rgba(0, 0, 0, 0.6) !important;
+}
+
+table#vault-data td {
+    height: 1em;
 }

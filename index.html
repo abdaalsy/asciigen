@@ -1,48 +1,19 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta charset="utf-8">
-        <link rel="stylesheet" href="style.css">
+        <meta charset="utf-8" />
+        <link rel="stylesheet" href="style.css" />
         <title>ASCIIGEN: ASCII Art Generator</title>
     </head>
     <body>
-        <img id="logo" src="logo.png" alt="ASCIIGEN">
+        <img id="logo" src="logo.png" alt="ASCIIGEN" />
         <table id="container">
             <tbody>
                 <tr>
-                    <td id="main" style="max-width: 600px;">
-                        <div class="box">
-                            <h2 class="title-text">WELCOME TO ASCIIGEN</h2>
-                            <p>Choose an image file or enter an image url to convert this image into text! Supported file formats include PPM, PNG, JPEG, GIF, TIFF, and BMP.</p>
-                            <!-- Main input form, add action URL! -->
-                             <form method="post">
-                                <label id="input-label" for="input">File: </label>
-                                <input required id="input" type="file">
-                                <fieldset class="input-type inline">
-                                    <legend>Input type</legend>
-                                    <label for="file-input">File: <input checked required type="radio" name="input-type"></label>
-                                    <label for="url-input">URL: <input checked required type="radio" name="input-type"></label>
-                                </fieldset>
-                                <input class="start-button inline" type="image" name="submit" src="startbutton.png" >
-                             </form>
-                             <!-- Add some green confirmation text if successful, add a red error message if not -->
-                             <textarea id="output" readonly rows="3" cols="80">Output will go here!</textarea>
-                        </div>
-                    </td>
-
-                    <td id="side-menu" style="max-width: 300px;">
-                        <div id="vault" class="box">
-                            <h2 class="title-text">VAULT</h2>
-                            <p>
-                                Enter your email to access up to <span class="aqua">10</span> previous conversions! Or, generate a key to begin saving your own.
-                            </p>
-                            <!-- Vault input form -->
-                            <p id="keystatus" class="errortext">Locked!</p>
-                            <!-- Vault Data -->
-                        </div>
-                        <div class="box">
+                    <td id="about-menu" class="side-menu">
+                       <div class="box">
                             <h2 class="title-text">ABOUT</h2>
-                            <a href="https://github.com/abdaalsy" target="_blank"><img id="pfp" title="my github" src="https://avatars.githubusercontent.com/u/91766228?v=4"></a>
+                            <a href="https://github.com/abdaalsy" target="_blank"><img id="pfp" title="my github" alt="GitHub Profile Picture" src="https://avatars.githubusercontent.com/u/91766228?v=4" /></a>
                             <p><span class="title-text">HELLO,</span> 
                                 I'm <span class="aqua">Abdaal</span>. I made this program back in early 2023 and recently had an idea to get it on the web. I made some improvements to the algorithm
                                 with the aim to increase visibility.
@@ -63,6 +34,94 @@
                                 <li>asciiweb (the website you're looking at)</li>
                                 <li><span class="aqua">Coming soon!</span></li>
                             </ul>
+                        </div> 
+                    </td>
+                    <td id="main" style="max-width: 600px;">
+                        <div class="box">
+                            <h2 class="title-text">WELCOME TO ASCIIGEN</h2>
+                            <p>Choose an image file or enter an image url to convert this image into text! Supported file formats include PPM, PNG, JPEG, GIF, TIFF, and BMP.</p>
+                            <!-- Main input form, add action URL! -->
+                             <form method="post">
+                                <label id="input-label" for="input">File: </label>
+                                <input required id="input" type="file" />
+                                <fieldset class="input-type inline">
+                                    <legend>Input type</legend>
+                                    <label for="file-input">File: <input checked required type="radio" name="input-type" /></label>
+                                    <label for="url-input">URL: <input checked required type="radio" name="input-type" /></label>
+                                </fieldset>
+                                <input class="start-button inline" type="image" name="submit" src="startbutton.png" />
+                             </form>
+                             <!-- TODO: Add some green confirmation text if successful, add a red error message if not -->
+                             <textarea id="output" readonly rows="3" cols="80">Output will go here!</textarea>
+                             <!-- TODO: Copy button and save button -->
+                        </div>
+                    </td>
+
+                    <td id="vault-menu" class="side-menu">
+                        <div id="vault" class="box">
+                            <h2 class="title-text">VAULT</h2>
+                            <p>
+                                Enter your email to access up to <span class="aqua">10</span> saved conversions! If you haven't entered your 
+                                email before, a vault will be generated.
+                            </p>
+                            <!-- Vault input form -->
+                            
+                            <form method="post">
+                                <label class="vault-email" for="email-input">Email: <input required id="email-input" type="email"></label>
+                                <input id="unlock" type="image" name="unlock" src="button_unlock.png" />
+                            </form>
+                            <p id="keystatus" class="errortext">Locked!</p>
+                            <table id="vault-data" class="alternating">
+                                <thead class="aqua">
+                                    <tr>
+                                        <td>Name</td>
+                                        <td>Date</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                </tbody>    
+                            </table>
+                            <!-- form for loading or deleting a certain column -->
                         </div>
                     </td>
                 </tr>
