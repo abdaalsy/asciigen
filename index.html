@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <meta charset="utf-8">
         <link rel="stylesheet" href="style.css">
+        <title>ASCIIGEN: ASCII Art Generator</title>
     </head>
     <body>
         <img id="logo" src="logo.png" alt="ASCIIGEN">
@@ -12,30 +14,19 @@
                         <div class="box">
                             <h2 class="title-text">WELCOME TO ASCIIGEN</h2>
                             <p>Choose an image file or enter an image url to convert this image into text! Supported file formats include PPM, PNG, JPEG, GIF, TIFF, and BMP.</p>
-                            <span>File: </span>
-                            <input type="file" name="source">
-                            <input type="radio" id="fileinput" name="inputtype" checked>
-                            <label for="fileinput">File</label>
-                            <input type="radio" id="urlinput" name="inputtype">
-                            <label for="urlinput">URL</label>
-                            <p id="status" class="correcttext">Done!</p>
-                            <textarea id="output" anme="output" rows="30" cols="75">
-⣿⣿⣿⣿⣿⣿⣿⡿⠟⠛⠉⠉⠉⠉⠋⠉⠉⠙⠛⠛⠻⠿⢿⣿⣿⣿⣿⣿⣿⣿
-⣿⣿⣿⣿⠿⠋⠁⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠈⠉⠻⣿⣿⣿⣿⣿
-⣿⣿⡟⠁⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠙⢻⣿⣿⣿
-⣿⠏⠄⠄⠄⠄⠄⠄⠄⠄⢀⣔⢤⣄⡀⠄⡄⡀⠄⠄⠄⠄⠄⠄⠄⠄⠄⢻⣿⣿
-⠏⠄⠄⠄⠄⠄⠄⠄⢀⣀⣨⣵⣿⣿⣿⣿⣧⣦⣤⣀⣿⣷⡐⠄⠄⠄⠄⠄⢿⣿
-⠄⠄⠄⠄⠄⠄⠐⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣦⡀⠄⠄⠄⢚⣿
-⣆⠄⠄⠄⠄⠄⠄⢻⣿⣿⣿⣿⡿⠛⠛⠛⠛⣿⢿⣿⣿⣿⡿⢟⣻⣄⣤⣮⡝⣿
-⣿⠆⠄⠄⠄⠄⠄⠄⠄⠄⠉⠘⣿⡗⡕⣋⢉⣩⣽⣬⣭⣶⣿⣿⣿⣿⣝⣻⣷⣿
-⣿⣦⡀⠄⠄⠠⢀⠄⠄⠁⠄⠄⣿⣿⣶⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡟⣿
-⣿⣿⣿⡆⠄⠄⠰⣶⡗⠄⠄⠄⣿⣿⣿⣿⣦⣌⠙⠿⣿⣿⣿⣿⣿⣿⣿⡛⠱⢿
-⣿⣿⣿⣿⡀⠄⠄⠿⣿⠄⠄⠄⠨⡿⠿⠿⣿⣟⣿⣯⣹⣿⣿⣿⣿⣿⣿⣿⣦⡀
-⣿⣿⣿⣿⣷⠄⠄⠄⢷⣦⠄⠄⠐⢶⢾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡇
-⣿⣿⣿⣿⣿⣧⡄⠄⠄⠉⠄⠄⠄⢉⣽⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠟⠄
-⣿⣿⣿⣿⣿⠟⠋⠄⠄⠄⠄⠄⠄⠈⠛⠿⠿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠋⠄⠄
-⣿⠿⠛⠉⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠘⠿⢿⣿⣿⣿⣿⣿⠿⠋⠄⠄⠄⠄
-                            </textarea>
+                            <!-- Main input form, add action URL! -->
+                             <form method="post">
+                                <label id="input-label" for="input">File: </label>
+                                <input required id="input" type="file">
+                                <fieldset class="input-type inline">
+                                    <legend>Input type</legend>
+                                    <label for="file-input">File: <input checked required type="radio" name="input-type"></label>
+                                    <label for="url-input">URL: <input checked required type="radio" name="input-type"></label>
+                                </fieldset>
+                                <input class="start-button inline" type="image" name="submit" src="startbutton.png" >
+                             </form>
+                             <!-- Add some green confirmation text if successful, add a red error message if not -->
+                             <textarea id="output" readonly rows="3" cols="80">Output will go here!</textarea>
                         </div>
                     </td>
 
@@ -43,65 +34,18 @@
                         <div id="vault" class="box">
                             <h2 class="title-text">VAULT</h2>
                             <p>
-                                Enter your key to access up to <span class="aqua">10</span> previous conversions! Or, generate a key to begin saving your own.
+                                Enter your email to access up to <span class="aqua">10</span> previous conversions! Or, generate a key to begin saving your own.
                             </p>
-                            <span>Key:</span>
-                            <input type="text" name="key-in" maxlength="8" style="width: 100px;">
-                            <input type="image" name="enter-key" src="button_unlock.png" width="70px">
+                            <!-- Vault input form -->
                             <p id="keystatus" class="errortext">Locked!</p>
-                            <table id="user-data">
-                                <tr>
-                                    <th>Name</th>
-                                    <th>Date</th>
-                                </tr>
-                                <tr>
-                                    <td>Placeholder</td>
-                                    <td>Placeholder</td>
-                                </tr>
-                                <tr>
-                                    <td>Placeholder</td>
-                                    <td>Placeholder</td>
-                                </tr>
-                                <tr>
-                                    <td>Placeholder</td>
-                                    <td>Placeholder</td>
-                                </tr>
-                                <tr>
-                                    <td>Placeholder</td>
-                                    <td>Placeholder</td>
-                                </tr>
-                                <tr>
-                                    <td>Placeholder</td>
-                                    <td>Placeholder</td>
-                                </tr>
-                                <tr>
-                                    <td>Placeholder</td>
-                                    <td>Placeholder</td>
-                                </tr>
-                                <tr>
-                                    <td>Placeholder</td>
-                                    <td>Placeholder</td>
-                                </tr>
-                                <tr>
-                                    <td>Placeholder</td>
-                                    <td>Placeholder</td>
-                                </tr>
-                                <tr>
-                                    <td>Placeholder</td>
-                                    <td>Placeholder</td>
-                                </tr>
-                                <tr>
-                                    <td>Placeholder</td>
-                                    <td>Placeholder</td>
-                                </tr>
-                            </table>
+                            <!-- Vault Data -->
                         </div>
                         <div class="box">
                             <h2 class="title-text">ABOUT</h2>
                             <a href="https://github.com/abdaalsy" target="_blank"><img id="pfp" title="my github" src="https://avatars.githubusercontent.com/u/91766228?v=4"></a>
                             <p><span class="title-text">HELLO,</span> 
                                 I'm <span class="aqua">Abdaal</span>. I made this program back in early 2023 and recently had an idea to get it on the web. I made some improvements to the algorithm
-                                with the aim to improve visibility.
+                                with the aim to increase visibility.
                             </p>
                             <p>Fun facts:</p>
                             <ul>
@@ -111,7 +55,7 @@
                                 <li>I watch a lot of instagram reels</li>
                             </ul>
                             <p>This is my first website, was trying to recreate the early 2000s look of the internet but ended up doing whatever this is. Credit goes to Ammar for the logo.</p>
-                            <p>- Abdaal</p>
+                            <p>- Abdaal</p> 
                         </div>
                         <div class="box">
                             <h2 class="title-text">My websites</h2>
@@ -123,9 +67,7 @@
                     </td>
                 </tr>
             </tbody>
-            <tr>
-                <td>Last Updated: January 22, 2025</td>
-            </tr>
-        </table>  
+        </table>
+        <p class="updated">Last Updated: February 11, 2025</p>  
     </body>
 </html>
