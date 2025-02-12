@@ -122,6 +122,7 @@ fieldset[class~="input-type"] {
     width: 100%;
     text-align: left;
     background-color: rgba(0, 0, 0, 0.6);
+    margin-bottom: 1em;
 }
 
 table.alternating tr:nth-child(odd)  {
@@ -134,4 +135,8 @@ table.alternating thead tr {
 
 table#vault-data td {
     height: 1em;
+}
+
+label[for="row-select"] {
+    margin-right: 1em;
 }

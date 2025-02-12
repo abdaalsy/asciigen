@@ -11,7 +11,8 @@
             <tbody>
                 <tr>
                     <td id="about-menu" class="side-menu">
-                       <div class="box">
+                        <!-- About section -->
+                        <div class="box">
                             <h2 class="title-text">ABOUT</h2>
                             <a href="https://github.com/abdaalsy" target="_blank"><img id="pfp" title="my github" alt="GitHub Profile Picture" src="https://avatars.githubusercontent.com/u/91766228?v=4" /></a>
                             <p><span class="title-text">HELLO,</span> 
@@ -37,6 +38,7 @@
                         </div> 
                     </td>
                     <td id="main" style="max-width: 600px;">
+                        <!-- main section -->
                         <div class="box">
                             <h2 class="title-text">WELCOME TO ASCIIGEN</h2>
                             <p>Choose an image file or enter an image url to convert this image into text! Supported file formats include PPM, PNG, JPEG, GIF, TIFF, and BMP.</p>
@@ -53,11 +55,12 @@
                              </form>
                              <!-- TODO: Add some green confirmation text if successful, add a red error message if not -->
                              <textarea id="output" readonly rows="3" cols="80">Output will go here!</textarea>
-                             <!-- TODO: Copy button and save button -->
+                             <!-- TODO: Save form -->
                         </div>
                     </td>
 
                     <td id="vault-menu" class="side-menu">
+                        <!-- Vault section -->
                         <div id="vault" class="box">
                             <h2 class="title-text">VAULT</h2>
                             <p>
@@ -121,7 +124,19 @@
                                     </tr>
                                 </tbody>    
                             </table>
-                            <!-- form for loading or deleting a certain column -->
+                            <!-- Form for loading/deleting a conversion, might have to figure out the required thing-->
+                            <form id="load-delete" method="post">
+                                <fieldset>
+                                    <legend>Load/Delete Conversion</legend>
+                                    <label for="row-select">Select row: <input required id="row-select" type="number" name="row-select" min="1" max="10"></label>
+                                    <label for="action-select"> Action:</label>
+                                    <select required id="action-select" name="action-select">
+                                        <option>Load</option>
+                                        <option>Delete</option>
+                                    </select>
+                                    <input type="submit" value="Confirm" style="margin-top: 0.5em;">
+                                </fieldset>
+                            </form>
                         </div>
                     </td>
                 </tr>
