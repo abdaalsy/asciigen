@@ -6,6 +6,7 @@
         <title>ASCIIGEN: ASCII Art Generator</title>
     </head>
     <body>
+        <p class="updated">Last Updated: February 11, 2025</p>
         <img id="logo" src="logo.png" alt="ASCIIGEN" />
         <table id="container">
             <tbody>
@@ -26,7 +27,7 @@
                                 <li>I like working with hardware</li>
                                 <li>I watch a lot of instagram reels</li>
                             </ul>
-                            <p>This is my first website, was trying to recreate the early 2000s look of the internet but ended up doing whatever this is. Credit goes to Ammar for the logo.</p>
+                            <p>This is my first website, was trying to recreate the early 2000s look of the internet but ended up doing whatever this is. Credit goes to Ammar for the logo and the buttons.</p>
                             <p>- Abdaal</p> 
                         </div>
                         <div class="box">
@@ -43,13 +44,13 @@
                             <h2 class="title-text">WELCOME TO ASCIIGEN</h2>
                             <p>Choose an image file or enter an image url to convert this image into text! Supported file formats include PPM, PNG, JPEG, GIF, TIFF, and BMP.</p>
                             <!-- Main input form, add action URL! -->
-                             <form method="post">
+                             <form id="main-input" method="post">
                                 <label id="input-label" for="input">File: </label>
                                 <input required id="input" type="file" />
                                 <fieldset class="input-type inline">
                                     <legend>Input type</legend>
-                                    <label for="file-input">File: <input checked required type="radio" name="input-type" /></label>
-                                    <label for="url-input">URL: <input checked required type="radio" name="input-type" /></label>
+                                    <label for="file-input">File: <input checked id="file-input" type="radio" name="input-type" /></label>
+                                    <label for="url-input">URL: <input id="url-input" type="radio" name="input-type" /></label>
                                 </fieldset>
                                 <input class="start-button inline" type="image" name="submit" src="startbutton.png" />
                              </form>
@@ -142,6 +143,6 @@
                 </tr>
             </tbody>
         </table>
-        <p class="updated">Last Updated: February 11, 2025</p>  
+        <script src="script.js"></script>
     </body>
 </html>
