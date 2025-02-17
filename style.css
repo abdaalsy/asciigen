@@ -56,6 +56,13 @@ body {
     background-color: rgba(0, 0, 0, 0.3);
 }
 
+#save {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1em;
+}
+
 #main-input {
     display: flex;
     align-items: center;
