@@ -1,12 +1,14 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
         <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="description" content="Convert local and online images into text." />
         <link rel="stylesheet" href="style.css" />
         <title>ASCIIGEN: ASCII Art Generator</title>
     </head>
     <body>
-        <p class="updated">Last Updated: February 11, 2025</p>
+        <p class="updated">Last Updated: February 19, 2025</p>
         <img id="logo" src="logo.png" alt="ASCIIGEN" />
         <table id="container">
             <tbody>
@@ -55,7 +57,7 @@
                                 <input class="start-button inline" type="image" name="submit" src="startbutton.png" />
                              </form>
                              <!-- TODO: Add some green confirmation text if successful, add a red error message if not -->
-                             <textarea id="output" readonly rows="3" cols="80">Output will go here!</textarea>
+                             <textarea id="output" readonly>Output will go here!</textarea>
                              <!-- TODO: Save form -->
                               <p>Save your conversion: </p>
                               <p class="errortext">Must unlock vault first!</p>

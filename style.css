@@ -111,8 +111,12 @@ fieldset[class~="input-type"] {
 }
 
 #output {
+    font-size: smaller;
     margin-top: 1em;
-    max-width: 99%;
+    width: 98.5%;
+    max-width: 98.5%;
+    min-width: 98.5%;
+    resize: none;
 }
 
 .updated {
