@@ -1,6 +1,8 @@
 // functions for converting to ascii
 // write modular code!
 
+const Jimp = require("jimp");
+
 const FINAL_INDEX = 89;
 const ASCII_CHARS = [" ", ".", "-", "'", ":", "_", ",", "^", "=", ";", ">", "<", "+", 
     "!", "r", "c", "*", "/", "z", "?", "s", "L", "T", "v", ")", "J", "7", "(", "|", "F", 
@@ -29,7 +31,7 @@ function getCharSubset() {
     return charset;
 }
 
-export function generateAscii(src) {
+export async function generateAscii(src) {
     const charset = getCharSubset();
-}
 
+}

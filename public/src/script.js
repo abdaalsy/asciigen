@@ -1,4 +1,4 @@
-import {generateAscii} from "./asciigen.js";
+import { generateAscii } from "./asciigen.js";
 
 const fileInputRadio = document.getElementById("file-input");
 const urlInputRadio = document.getElementById("url-input");
@@ -65,11 +65,12 @@ function onFormSubmit(e) {
         return;
     }
     let text;
-    generateAscii();
+    text = generateAscii();
 
     output.textContent = text;
     status.className = "correcttext";
     status.innerText = "Success!";
+    status.style.display = "block";
     output.style.height = output.scrollHeight + "px";
 }
 
