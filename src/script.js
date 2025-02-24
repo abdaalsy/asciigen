@@ -1,3 +1,5 @@
+import {generateAscii} from "./asciigen.js";
+
 const fileInputRadio = document.getElementById("file-input");
 const urlInputRadio = document.getElementById("url-input");
 const mainInput = document.getElementById("input");
@@ -5,8 +7,6 @@ const mainInputLabel = document.getElementById("input-label")
 const mainInputForm = document.getElementById("main-input");
 const output = document.getElementById("output");
 const supportedTypes = ["image/bmp", "image/jpeg", "image/png", "image/tiff"];
-
-let inputtedFile;
 let fileInputEnabled = true;
 
 function enableFileInput() {
@@ -35,7 +35,6 @@ function getSupportedTypesString() {
 }
 
 function checkFileType(extension) {
-    console.log(extension);
     if (!supportedTypes.includes(extension)) {
         let msg = getSupportedTypesString();
         alert(msg);
@@ -56,15 +55,21 @@ function enableURLInput() {
 
 function onFormSubmit(e) {
     e.preventDefault();
-    document.getElementById("main-status").style.display = "none";
+    let status = document.getElementById("main-status");
+    status.style.display = "none";
     // validation
     if (!checkFileType(mainInput.files[0].type)) {
-        document.getElementById("main-status").style.display = "block";
-        document.getElementById("main-status").className = "errortext";
-        document.getElementById("main-status").innerText = getSupportedTypesString();
+        status.style.display = "block";
+        status.className = "errortext";
+        status.innerText = getSupportedTypesString();
         return;
     }
-    
+    let text;
+    generateAscii();
+
+    output.textContent = text;
+    status.className = "correcttext";
+    status.innerText = "Success!";
     output.style.height = output.scrollHeight + "px";
 }
 
