@@ -23,15 +23,32 @@ const DARKNESSES = [0, 0.0751, 0.0829, 0.0848, 0.1227, 0.1403, 0.1559, 0.185, 0.
 const NUM_CHARS = 7;
 
 function getCharSubset() {
+    // TODO: implement darkness based subset creation
     const jump = FINAL_INDEX / NUM_CHARS;
     let charset = [];
     for (let i = 0; i < ASCII_CHARS.length; i += jump) {
-        charset.push(ASCII_CHARS[i]);   // from darkest to lightest
+        charset.push(ASCII_CHARS[i]);   // from lightest to darkest
     }
     return charset;
 }
 
+function readFromFile(file) {
+    const arrayBuffer = file.arrayBuffer();
+    return Jimp.read(arrayBuffer);
+}
+
 export async function generateAscii(src) {
     const charset = getCharSubset();
-
+    let image;
+    if ((typeof src) === "object") {
+        image = readFromFile(src);
+    }
+    else if ((typeof src) === "string") {
+        image = Jimp.read(src);
+    }
+    else {
+        return null;
+    }
+    console.log(image.RawImageData.data[0]);
+    return "abc";
 }

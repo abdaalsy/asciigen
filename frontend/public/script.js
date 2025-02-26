@@ -1,4 +1,4 @@
-import { generateAscii } from "./asciigen.js";
+import { generateAscii } from "../../backend/asciigen.js";
 
 const fileInputRadio = document.getElementById("file-input");
 const urlInputRadio = document.getElementById("url-input");
@@ -57,15 +57,28 @@ function onFormSubmit(e) {
     e.preventDefault();
     let status = document.getElementById("main-status");
     status.style.display = "none";
-    // validation
-    if (!checkFileType(mainInput.files[0].type)) {
-        status.style.display = "block";
-        status.className = "errortext";
-        status.innerText = getSupportedTypesString();
-        return;
+    // file input validation
+    if (fileInputEnabled) {
+        if (!checkFileType(mainInput.files[0].type)) {
+            status.style.display = "block";
+            status.className = "errortext";
+            status.innerText = getSupportedTypesString();
+            return;
+        }
     }
+    // URL input validation
+    else {
+        // ensure URL points to a file of type bmp, jpg, jpeg, png.
+    }
+    
     let text;
     text = generateAscii();
+
+    if (text === null) {
+        status.InnerText = "An error occurred while processing this image.";
+        status.className = "errortext";
+        return;
+    }
 
     output.textContent = text;
     status.className = "correcttext";
