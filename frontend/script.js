@@ -1,4 +1,3 @@
-import { generateAscii } from "../../backend/asciigen.js";
 
 const fileInputRadio = document.getElementById("file-input");
 const urlInputRadio = document.getElementById("url-input");
@@ -72,19 +71,10 @@ function onFormSubmit(e) {
     }
     
     let text;
-    text = generateAscii();
 
     if (text === null) {
-        status.InnerText = "An error occurred while processing this image.";
-        status.className = "errortext";
         return;
     }
-
-    output.textContent = text;
-    status.className = "correcttext";
-    status.innerText = "Success!";
-    status.style.display = "block";
-    output.style.height = output.scrollHeight + "px";
 }
 
 function onMainInputChange() {
