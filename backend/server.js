@@ -3,6 +3,7 @@ const express = require("express");
 const path = require('path');
 const { Jimp } = require("jimp");
 const asciigen = require("./asciigen");
+const fs = require("fs");
 
 const app = express();
 const PORT = 3000;
@@ -22,7 +23,17 @@ app.post(`/submitFile`, upload.single("input"), async (req, res) => {
         return res.status(400).json({error: "An error occurred in uploading this file."})
     }
     const image = await Jimp.read(req.file.path);
-    let txt = await asciigen.generateAscii(image);
+    let txt = await image.bitmap.height;
+
+    fs.unlink(req.file.path, (err) => {
+        if (err) {
+            console.log(err);
+        }
+        else {
+            console.log("File was deleted.");
+        }
+    });
+
     res.status(200).json({text: txt});
 })
 
