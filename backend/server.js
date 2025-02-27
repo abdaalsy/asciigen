@@ -1,16 +1,29 @@
+const multer = require("multer");
 const express = require("express");
 const path = require('path');
+const { Jimp } = require("jimp");
+const asciigen = require("./asciigen");
 
 const app = express();
 const PORT = 3000;
 
+const upload = multer({ dest: "uploads/"});
 app.use(express.static("./frontend"));
 app.use(express.json());
 
-app.post(`/submit`, (req, res) => {
-    console.log(`URL: "${req.body.input}"\nTYPE: "${req.body["input-type"]}"`);
-    // call some functions from asciigen.js
-    // send back the resulting text
+app.post(`/submitURL`, async (req, res) => {
+    const image = await Jimp.read(req.body.input);
+    let txt = asciigen.generateAscii(image);
+    res.status(200).json({text: txt});
+})
+
+app.post(`/submitFile`, upload.single("input"), async (req, res) => {
+    if (!req.file) {
+        return res.status(400).json({error: "An error occurred in uploading this file."})
+    }
+    const image = await Jimp.read(req.file.path);
+    let txt = await asciigen.generateAscii(image);
+    res.status(200).json({text: txt});
 })
 
 

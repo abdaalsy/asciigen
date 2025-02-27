@@ -6,17 +6,9 @@ const mainInputLabel = document.getElementById("input-label")
 const mainInputForm = document.getElementById("main-input");
 const output = document.getElementById("output");
 const supportedTypes = ["image/bmp", "image/jpeg", "image/png", "image/tiff"];
+const mainInputStatus = document.getElementById("main-status");
 let fileInputEnabled = true;
 
-function enableFileInput() {
-    if (fileInputEnabled) {
-        return;
-    }
-    mainInput.setAttribute("type", "file");
-    mainInputLabel.innerText = "File: ";
-    mainInput.style.marginRight = "unset";
-    fileInputEnabled = true;
-}
 
 function getSupportedTypesString() {
     let msg = "";
@@ -33,13 +25,14 @@ function getSupportedTypesString() {
     return msg;
 }
 
-function checkFileType(extension) {
-    if (!supportedTypes.includes(extension)) {
-        let msg = getSupportedTypesString();
-        alert(msg);
-        return false;
+function enableFileInput() {
+    if (fileInputEnabled) {
+        return;
     }
-    return true;
+    mainInput.setAttribute("type", "file");
+    mainInputLabel.innerText = "File: ";
+    mainInput.style.marginRight = "unset";
+    fileInputEnabled = true;
 }
 
 function enableURLInput() {
@@ -52,31 +45,80 @@ function enableURLInput() {
     fileInputEnabled= false;
 }
 
+function setMainErrorStatus(msg) {
+    mainInputStatus.style.display = "block";
+    mainInputStatus.className = "errortext";
+    mainInputStatus.innerText = msg;
+}
+
+function checkFileType(extension) {
+    if (!supportedTypes.includes(extension)) {
+        let msg = getSupportedTypesString();
+        alert(msg);
+        return false;
+    }
+    return true;
+}
+
+function validateFile(file) {
+    if (!checkFileType(file.type)) {
+        setMainErrorStatus(getSupportedTypesString());
+        return false;
+    }
+    return true;
+}
+
+function validateURL(text) {
+    try {
+        let url = new URL(text);
+        if (!URL.canParse(url)) {
+            throw TypeError;
+        }
+        else if(!(url.href.endsWith(".bmp") || url.href.endsWith(".jpg") || url.href.endsWith(".jpeg") || url.href.endsWith(".png"))) {
+            throw Error;
+        }
+        return true;
+    }
+    catch (error) {
+        if (error instanceof TypeError) {
+            setMainErrorStatus("Not a valid URL!");
+        }
+        if (error instanceof MediaError) {
+            setMainErrorStatus(getSupportedTypesString());
+        }
+        return false;
+    }
+}
+
+// event callbacks
 async function onFormSubmit(e) {
     e.preventDefault();
-    let status = document.getElementById("main-status");
-    status.style.display = "none";
-    // file input validation
+    mainInputStatus.style.display = "none";
+    const formData = new FormData(mainInputForm);
+    const formDataObj = Object.fromEntries(formData.entries());
+    var response;
+    
     if (fileInputEnabled) {
-        if (!checkFileType(mainInput.files[0].type)) {
-            status.style.display = "block";
-            status.className = "errortext";
-            status.innerText = getSupportedTypesString();
-            return;
-        }
-    }
-    // URL input validation
-    else {
-        const response = await fetch("http://localhost:3000/submit", {
+        console.log(formDataObj.input.type);
+        if (!validateFile(mainInput.files[0])) { return; }
+        response = await fetch("http://localhost:3000/submitFile", {
+            method: "POST",
+            body: formData
+        })
+    } else {
+        if (!validateURL(formData.get("input"))) { return; }
+        response = await fetch("http://localhost:3000/submitURL", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify(Object.fromEntries((new FormData(mainInputForm)).entries()))
+            body: JSON.stringify(formDataObj)
         })
-
-        const result = await response.json();
     }
+
+    const result = await response.json();
+    console.log(result);
+    output.textContent = result.text;
 }
 
 function onMainInputChange() {

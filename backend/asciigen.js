@@ -32,23 +32,9 @@ function getCharSubset() {
     return charset;
 }
 
-function readFromFile(file) {
-    const arrayBuffer = file.arrayBuffer();
-    return Jimp.read(arrayBuffer);
+async function generateAscii(image) {
+    const charset = getCharSubset();
+    return "abcdef";
 }
 
-export async function generateAscii(src) {
-    const charset = getCharSubset();
-    let image;
-    if ((typeof src) === "object") {
-        image = readFromFile(src);
-    }
-    else if ((typeof src) === "string") {
-        image = Jimp.read(src);
-    }
-    else {
-        return null;
-    }
-    console.log(image.RawImageData.data[0]);
-    return "abc";
-}
+module.exports = {generateAscii}
