@@ -52,7 +52,7 @@ function enableURLInput() {
     fileInputEnabled= false;
 }
 
-function onFormSubmit(e) {
+async function onFormSubmit(e) {
     e.preventDefault();
     let status = document.getElementById("main-status");
     status.style.display = "none";
@@ -67,13 +67,15 @@ function onFormSubmit(e) {
     }
     // URL input validation
     else {
-        // ensure URL points to a file of type bmp, jpg, jpeg, png.
-    }
-    
-    let text;
+        const response = await fetch("http://localhost:3000/submit", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(Object.fromEntries((new FormData(mainInputForm)).entries()))
+        })
 
-    if (text === null) {
-        return;
+        const result = await response.json();
     }
 }
 

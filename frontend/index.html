@@ -46,13 +46,13 @@
                             <h2 class="title-text">WELCOME TO ASCIIGEN</h2>
                             <p>Choose an image file or enter an image url to convert this image into text! Supported file formats include PPM, PNG, JPEG, GIF, TIFF, and BMP.</p>
                             <!-- Main input form, add action URL! -->
-                             <form id="main-input" method="get">
+                             <form id="main-input" method="post">
                                 <label id="input-label" for="input">File: </label>
-                                <input required id="input" type="file" />
+                                <input required id="input" type="file" name="input"/>
                                 <fieldset class="input-type inline">
                                     <legend>Input type</legend>
-                                    <label for="file-input">File: <input checked id="file-input" type="radio" name="input-type" /></label>
-                                    <label for="url-input">URL: <input id="url-input" type="radio" name="input-type" /></label>
+                                    <label for="file-input">File: <input checked id="file-input" type="radio" name="input-type" value="file"/></label>
+                                    <label for="url-input">URL: <input id="url-input" type="radio" name="input-type" value="url"/></label>
                                 </fieldset>
                                 <input class="start-button inline" type="image" name="submit" src="assets/startbutton.png" />
                              </form>
