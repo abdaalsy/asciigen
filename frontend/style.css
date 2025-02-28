@@ -1,5 +1,5 @@
 @font-face {font-family:"Pixel NES";src:url("assets/font/Pixel_NES.eot?") format("eot"),url("assets/fontPixel_NES.woff") format("woff"),url("assets/font/Pixel_NES.ttf") format("truetype"),url("assets/font/Pixel_NES.svg") format("svg");font-weight:normal;font-style:normal;}
-html {
+* {
     box-sizing: border-box;
 }
 
@@ -114,8 +114,16 @@ fieldset[class~="input-type"] {
     border: 1px solid gray;
 }
 
+.start-button:hover {
+    border-color: aquamarine;
+}
+
+.start-button:active {
+    filter: invert(100%)
+}
+
 #output {
-    font-size: smaller;
+    font-size: x-small;
     margin-top: 1em;
     width: 98.5%;
     max-width: 98.5%;

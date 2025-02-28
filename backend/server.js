@@ -11,11 +11,12 @@ const PORT = 3000;
 const upload = multer({ dest: "uploads/"});
 app.use(express.static("./frontend"));
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 app.post(`/submitURL`, async (req, res) => {
     const image = await Jimp.read(req.body.input);
-    let txt = asciigen.generateAscii(image);
-    res.status(200).json({text: txt});
+    let txt = await asciigen.generateAscii(image);
+    res.status(200).send(txt);
 })
 
 app.post(`/submitFile`, upload.single("input"), async (req, res) => {
@@ -23,7 +24,7 @@ app.post(`/submitFile`, upload.single("input"), async (req, res) => {
         return res.status(400).json({error: "An error occurred in uploading this file."})
     }
     const image = await Jimp.read(req.file.path);
-    let txt = await image.bitmap.height;
+    let txt = await asciigen.generateAscii(image);
 
     fs.unlink(req.file.path, (err) => {
         if (err) {
@@ -34,7 +35,7 @@ app.post(`/submitFile`, upload.single("input"), async (req, res) => {
         }
     });
 
-    res.status(200).json({text: txt});
+    res.status(200).send(txt);
 })
 
 

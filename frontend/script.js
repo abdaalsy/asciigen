@@ -75,7 +75,7 @@ function validateURL(text) {
             throw TypeError;
         }
         else if(!(url.href.endsWith(".bmp") || url.href.endsWith(".jpg") || url.href.endsWith(".jpeg") || url.href.endsWith(".png"))) {
-            throw Error;
+            throw MediaError;
         }
         return true;
     }
@@ -97,6 +97,7 @@ async function onFormSubmit(e) {
     const formData = new FormData(mainInputForm);
     const formDataObj = Object.fromEntries(formData.entries());
     var response;
+    var result;
     
     if (fileInputEnabled) {
         console.log(formDataObj.input.type);
@@ -105,6 +106,7 @@ async function onFormSubmit(e) {
             method: "POST",
             body: formData
         })
+        result = await response.text();
     } else {
         if (!validateURL(formData.get("input"))) { return; }
         response = await fetch("http://localhost:3000/submitURL", {
@@ -114,11 +116,11 @@ async function onFormSubmit(e) {
             },
             body: JSON.stringify(formDataObj)
         })
+        result = await response.text();
     }
 
-    const result = await response.json();
-    console.log(result);
-    output.textContent = result.text;
+    output.textContent = result;
+    output.style.height = output.scrollHeight + "px";
 }
 
 function onMainInputChange() {
