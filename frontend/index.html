@@ -3,12 +3,12 @@
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta name="description" content="Convert local and online images into text." />
+        <meta name="description" content="An automatic ASCII art generator. Convert local and online images into text by uploading files, or URLs." />
         <link rel="stylesheet" href="style.css" />
         <title>ASCIIGEN: ASCII Art Generator</title>
     </head>
     <body>
-        <p class="updated">Last Updated: February 23, 2025</p>
+        <p class="updated">Last Updated: February 27, 2025</p>
         <img id="logo" src="assets/logo.png" alt="ASCIIGEN" />
         <table id="container">
             <tbody>
@@ -78,8 +78,8 @@
                             </p>
                             <!-- Vault input form -->
                             
-                            <form method="get">
-                                <label class="vault-email" for="email-input">Email: <input required id="email-input" type="email"></label>
+                            <form id="unlock-form" method="get">
+                                <label class="vault-email" for="email-input">Email: <input required id="email-input" type="email" name="email"></label>
                                 <input id="unlock" type="image" name="unlock" src="assets/button_unlock.png" />
                             </form>
                             <p id="keystatus" class="aqua">Enter your email to begin.</p>

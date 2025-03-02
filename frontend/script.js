@@ -1,4 +1,3 @@
-
 const fileInputRadio = document.getElementById("file-input");
 const urlInputRadio = document.getElementById("url-input");
 const mainInput = document.getElementById("input");
@@ -7,8 +6,10 @@ const mainInputForm = document.getElementById("main-input");
 const output = document.getElementById("output");
 const supportedTypes = ["image/bmp", "image/jpeg", "image/png", "image/tiff"];
 const mainInputStatus = document.getElementById("main-status");
+const unlockForm = document.getElementById("unlock-form");
 let fileInputEnabled = true;
 
+// implement a 128MB cap for images.
 
 function getSupportedTypesString() {
     let msg = "";
@@ -131,9 +132,24 @@ function onMainInputChange() {
     }
 }
 
+async function onUnlock(e) {
+    e.preventDefault();
+    //change this later to access other emails n shit
+    const email = document.getElementById("email-input").value
+    if (email == "abdaalsy@gmail.com") {
+        const response = await fetch(`http://localhost:3000/user/${email}`);
+        const result = await response.json();
+        console.log(result.conversions[0].text);
+    }
+    else {
+        console.log("Wrong email");
+    }
+}
+
 fileInputRadio.addEventListener("click", enableFileInput);
 urlInputRadio.addEventListener("click", enableURLInput);
 mainInputForm.addEventListener("submit", onFormSubmit);
 mainInput.addEventListener("change", onMainInputChange);
+unlockForm.addEventListener("submit", onUnlock)
 
 

@@ -1,7 +1,7 @@
 // functions for converting to ascii
 // write modular code!
 
-const { Jimp, intToRGBA } = require("jimp");
+const {Jimp, intToRGBA} = require("jimp");
 
 var ASCII_CHARS = [" ", ".", "-", "'", ":", "_", ",", "^", "=", ";", ">", "<", "+", 
     "!", "r", "c", "*", "/", "z", "?", "s", "L", "T", "v", ")", "J", "7", "(", "|", "F", 
