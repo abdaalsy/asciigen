@@ -58,6 +58,18 @@ function setMainSuccessMessage(msg) {
     mainInputStatus.innerText = msg;
 }
 
+function setVaultSuccessMessage(email) {
+    let status = document.getElementById("keystatus");
+    status.className = "correcttext";;
+    status.innerText = `Logged in as ${email}.`;
+}
+
+function setVaultErrorMessage(msg) {
+    let status = document.getElementById("keystatus");
+    status.className = "errortext";
+    status.innerText = msg;
+}
+
 function checkFileType(extension) {
     if (!supportedTypes.includes(extension)) {
         let msg = getSupportedTypesString();
@@ -99,6 +111,24 @@ function validateURL(text) {
         }
         return false;
     }
+}
+
+function loadVaultData(conversions) {
+    let rows = document.querySelector(`#vault-data tbody`).childNodes;
+    for (let i=0; i < conversions.length; i++) {
+        let row = rows[i*2 + 1].childNodes;
+        // 1: name, 3: date, 5: text (hidden)
+        row[1].innerText = conversions[i].name;
+        row[3].innerText = conversions[i].date;
+        row[5].textContent = conversions[i].text;
+        console.log(row[5].textContent);
+    }
+}
+
+function onVaultSuccess(conversions) {
+    document.getElementById("submit-vault-edit").disabled = false;
+    document.getElementById("save-btn").disabled = false;
+    loadVaultData(conversions);
 }
 
 // event callbacks
@@ -149,10 +179,11 @@ async function onUnlock(e) {
     if (email == "abdaalsy@gmail.com") {
         const response = await fetch(`http://localhost:3000/user/${email}`);
         const result = await response.json();
-        console.log(result.conversions[0].text);
+        setVaultSuccessMessage(email);
+        onVaultSuccess(result.conversions);
     }
     else {
-        console.log("Wrong email");
+        setVaultErrorMessage("This email does not exist.");
     }
 }
 

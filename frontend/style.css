@@ -164,6 +164,12 @@ table#vault-data td {
     height: 1em;
 }
 
+.vault-third-col {
+    display: none;
+    height: 1em;
+    max-height: 1em;
+}
+
 label[for="row-select"] {
     margin-right: 1em;
 }
