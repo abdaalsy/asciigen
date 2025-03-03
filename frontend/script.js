@@ -52,6 +52,12 @@ function setMainErrorStatus(msg) {
     mainInputStatus.innerText = msg;
 }
 
+function setMainSuccessMessage(msg) {
+    mainInputStatus.style.display = "block";
+    mainInputStatus.className = "correcttext";
+    mainInputStatus.innerText = msg;
+}
+
 function checkFileType(extension) {
     if (!supportedTypes.includes(extension)) {
         let msg = getSupportedTypesString();
@@ -64,6 +70,10 @@ function checkFileType(extension) {
 function validateFile(file) {
     if (!checkFileType(file.type)) {
         setMainErrorStatus(getSupportedTypesString());
+        return false;
+    }
+    if (file.size > 1024*1024*32) {
+        setMainErrorStatus("This file is too big! The maximum file size is 32MB");
         return false;
     }
     return true;
@@ -95,6 +105,7 @@ function validateURL(text) {
 async function onFormSubmit(e) {
     e.preventDefault();
     mainInputStatus.style.display = "none";
+
     const formData = new FormData(mainInputForm);
     const formDataObj = Object.fromEntries(formData.entries());
     var response;
@@ -112,10 +123,15 @@ async function onFormSubmit(e) {
         headers: fileInputEnabled ? {} : {"Content-Type": "application/json"},
         body: fileInputEnabled ? formData : JSON.stringify(formDataObj)
     })
-    result = await response.text();
-
-    output.textContent = result;
-    output.style.height = output.scrollHeight + "px";
+    if (response.ok) {
+        result = await response.text();
+        output.textContent = result;
+        output.style.height = output.scrollHeight + "px";
+        setMainSuccessMessage("Success!");
+    }
+    else {
+        setMainErrorStatus("An error occurred in processing this request.");
+    }
 }
 
 function onMainInputChange() {
