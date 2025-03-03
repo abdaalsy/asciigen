@@ -9,7 +9,7 @@ const mainInputStatus = document.getElementById("main-status");
 const unlockForm = document.getElementById("unlock-form");
 let fileInputEnabled = true;
 
-// implement a 128MB cap for images.
+// implement a 32MB cap for images.
 
 function getSupportedTypesString() {
     let msg = "";
@@ -99,26 +99,20 @@ async function onFormSubmit(e) {
     const formDataObj = Object.fromEntries(formData.entries());
     var response;
     var result;
-    
+
     if (fileInputEnabled) {
-        console.log(formDataObj.input.type);
         if (!validateFile(mainInput.files[0])) { return; }
-        response = await fetch("http://localhost:3000/submitFile", {
-            method: "POST",
-            body: formData
-        })
-        result = await response.text();
-    } else {
-        if (!validateURL(formData.get("input"))) { return; }
-        response = await fetch("http://localhost:3000/submitURL", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(formDataObj)
-        })
-        result = await response.text();
     }
+    else {
+        if (!validateURL(formData.get("input"))) { return; }
+    }
+        
+    response = await fetch(fileInputEnabled ? "http://localhost:3000/submitFile" : "http://localhost:3000/submitURL", {
+        method: "POST",
+        headers: fileInputEnabled ? {} : {"Content-Type": "application/json"},
+        body: fileInputEnabled ? formData : JSON.stringify(formDataObj)
+    })
+    result = await response.text();
 
     output.textContent = result;
     output.style.height = output.scrollHeight + "px";
