@@ -70,7 +70,7 @@ app.post(`/submitFile`, upload.single("input"), async (req, res) => {
     res.status(200).send(txt);
 })
 
-app.get(`/user/:email`, async (req, res) => {
+app.get(`/:email`, async (req, res) => {
     await client.connect();
     conversions = client.db("UserData").collection("conversions");
     const email = req.params.email;
@@ -79,6 +79,8 @@ app.get(`/user/:email`, async (req, res) => {
     res.status(200).json(userDoc);
     await client.close();
 })
+
+app.delete(`/:email/delete/:index`)
 
 
 app.listen(PORT, () => { console.log(`Server running at http://localhost:${PORT}`); });

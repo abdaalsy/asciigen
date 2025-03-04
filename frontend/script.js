@@ -7,9 +7,12 @@ const output = document.getElementById("output");
 const supportedTypes = ["image/bmp", "image/jpeg", "image/png", "image/tiff"];
 const mainInputStatus = document.getElementById("main-status");
 const unlockForm = document.getElementById("unlock-form");
+const vaultEditForm = document.getElementById("load-delete");
+var userData;
 let fileInputEnabled = true;
+document.getElementById("submit-vault-edit").disabled = true;
+document.getElementById("save-btn").disabled = true;
 
-// implement a 32MB cap for images.
 
 function getSupportedTypesString() {
     let msg = "";
@@ -58,10 +61,16 @@ function setMainSuccessMessage(msg) {
     mainInputStatus.innerText = msg;
 }
 
-function setVaultSuccessMessage(email) {
+function setVaultDefaultMessage() {
+    let status = document.getElementById("keystatus");
+    status.className = "aqua";
+    status.innerText = "Enter your email to begin";
+}
+
+function setVaultSuccessMessage() {
     let status = document.getElementById("keystatus");
     status.className = "correcttext";;
-    status.innerText = `Logged in as ${email}.`;
+    status.innerText = `Logged in as ${userData.email}.`;
 }
 
 function setVaultErrorMessage(msg) {
@@ -113,22 +122,46 @@ function validateURL(text) {
     }
 }
 
-function loadVaultData(conversions) {
+function loadVaultData() {
     let rows = document.querySelector(`#vault-data tbody`).childNodes;
-    for (let i=0; i < conversions.length; i++) {
+    for (let i=0; i < userData.conversions.length; i++) {
         let row = rows[i*2 + 1].childNodes;
-        // 1: name, 3: date, 5: text (hidden)
-        row[1].innerText = conversions[i].name;
-        row[3].innerText = conversions[i].date;
-        row[5].textContent = conversions[i].text;
-        console.log(row[5].textContent);
+        // 1: name, 3: date
+        row[1].innerText = userData.conversions[i].name;
+        row[3].innerText = userData.conversions[i].date;
     }
 }
 
-function onVaultSuccess(conversions) {
+function clearVaultData() {
+    let rows = document.querySelector(`#vault-data tbody`).childNodes;
+    for (let i=1; i < rows.length; i += 2) {
+        let row = rows[i].childNodes;
+        // 1: name, 3: date
+        row[1].innerText = "";
+        row[3].innerText = "";
+    }
+}
+
+function saveConversion() {
+
+}
+
+function loadConversion(rowIndex) {
+    if (rowIndex > userData.conversions.length - 1) { return; }
+    output.textContent = userData.conversions[rowIndex].text;
+    output.style.height = output.scrollHeight + "px";
+}
+
+function deleteConversion(rowIndex) {
+    console.log(`Requested to delete row #${rowIndex + 1}`);
+}
+
+function onVaultSuccess() {
+    clearVaultData();
     document.getElementById("submit-vault-edit").disabled = false;
     document.getElementById("save-btn").disabled = false;
-    loadVaultData(conversions);
+    loadVaultData();
+    setVaultSuccessMessage();
 }
 
 // event callbacks
@@ -177,13 +210,30 @@ async function onUnlock(e) {
     //change this later to access other emails n shit
     const email = document.getElementById("email-input").value
     if (email == "abdaalsy@gmail.com") {
-        const response = await fetch(`http://localhost:3000/user/${email}`);
+        const response = await fetch(`http://localhost:3000/${email}`);
         const result = await response.json();
-        setVaultSuccessMessage(email);
-        onVaultSuccess(result.conversions);
+        userData = result;
+        onVaultSuccess();
     }
     else {
         setVaultErrorMessage("This email does not exist.");
+    }
+}
+
+async function submitVaultEdit(e) {
+    e.preventDefault();
+    vaultEditData = new FormData(vaultEditForm);
+    let action = vaultEditData.get("action-select");
+    let rowIndex = Number(vaultEditData.get("row-select")) - 1;
+    switch (action) {
+        case "Load":
+            loadConversion(rowIndex);
+            break;
+        case "Delete":
+            deleteConversion(rowIndex);
+            return;
+        default:
+            return;;
     }
 }
 
@@ -192,5 +242,6 @@ urlInputRadio.addEventListener("click", enableURLInput);
 mainInputForm.addEventListener("submit", onFormSubmit);
 mainInput.addEventListener("change", onMainInputChange);
 unlockForm.addEventListener("submit", onUnlock)
+vaultEditForm.addEventListener("submit", submitVaultEdit)
 
 
