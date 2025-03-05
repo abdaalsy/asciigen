@@ -9,11 +9,19 @@ const supportedTypes = ["image/bmp", "image/jpeg", "image/png", "image/tiff"];
 const mainInputStatus = document.getElementById("main-status");
 const unlockForm = document.getElementById("unlock-form");
 const vaultEditForm = document.getElementById("load-delete");
+const saveForm = document.getElementById("save");
 var userData;
 let fileInputEnabled = true;
 document.getElementById("submit-vault-edit").disabled = true;
 document.getElementById("save-btn").disabled = true;
 
+function getCurrentDate() {
+    let date = new Date();
+    let day = date.getDate();
+    let month = date.getMonth() + 1;
+    let year = date.getFullYear();
+    return `${year}-${month < 10 ? "0" + month : month}-${day < 10 ? "0" + day : day}`;
+}
 
 function getSupportedTypesString() {
     let msg = "";
@@ -254,11 +262,33 @@ async function submitVaultEdit(e) {
     }
 }
 
+async function onSubmitSaveForm(e) {
+    e.preventDefault();
+    const saveFormData = new FormData(saveForm);
+    const response = await fetch(`${ROOT}/${userData.email}`, {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({
+            name: saveFormData.get("name"),
+            date: getCurrentDate(),
+            text: output.textContent
+        })
+    })
+    if (response.ok) {
+        setVaultSuccessMessage("Saved! Changes will be reflected after reloading the page.");
+    }
+    else {
+        const result = await response.json();
+        setVaultErrorMessage(result.message);
+    }
+}
+
 fileInputRadio.addEventListener("click", enableFileInput);
 urlInputRadio.addEventListener("click", enableURLInput);
 mainInputForm.addEventListener("submit", onFormSubmit);
 mainInput.addEventListener("change", onMainInputChange);
-unlockForm.addEventListener("submit", onUnlock)
-vaultEditForm.addEventListener("submit", submitVaultEdit)
+unlockForm.addEventListener("submit", onUnlock);
+vaultEditForm.addEventListener("submit", submitVaultEdit);
+saveForm.addEventListener("submit", onSubmitSaveForm);
 
 

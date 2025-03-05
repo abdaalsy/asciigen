@@ -62,7 +62,7 @@
                               <p>Save your conversion: </p>
                               <p class="aqua">Must unlock vault first!</p>
                               <form id="save" method="post">
-                                <label for="save-name">Name: <input id="save-name" required type="text" max="24"></label>
+                                <label for="save-name">Name: <input id="save-name" required type="text" max="24" name="name"></label>
                                 <button disabled id="save-btn" type="submit">Save</button>
                               </form>
                         </div>
@@ -87,7 +87,7 @@
                                 <thead class="aqua">
                                     <tr>
                                         <td>Name</td>
-                                        <td>Date</td>
+                                        <td><span title="YYYY-MM-DD">Date</span></td>
                                     </tr>
                                 </thead>
                                 <tbody>

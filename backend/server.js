@@ -73,7 +73,6 @@ app.delete(`/:email/:index`, async (req, res) => {
     const deleteIndex = Number(req.params.index);
     const userDoc = await collection.findOne({"email": req.params.email});
     const newConversions =  remove(userDoc.conversions, deleteIndex);
-    console.log(newConversions);
     await collection.updateOne({"email": req.params.email}, {
         $set: {
             "conversions": newConversions
@@ -103,7 +102,7 @@ app.post(`/:email`, async (req, res) => {
         }
     })
     res.status(200).json();
-    client.close();
+    await client.close();
 })
 
 
