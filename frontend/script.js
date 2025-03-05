@@ -1,3 +1,4 @@
+const ROOT = "http://localhost:3000";
 const fileInputRadio = document.getElementById("file-input");
 const urlInputRadio = document.getElementById("url-input");
 const mainInput = document.getElementById("input");
@@ -67,10 +68,10 @@ function setVaultDefaultMessage() {
     status.innerText = "Enter your email to begin";
 }
 
-function setVaultSuccessMessage() {
+function setVaultSuccessMessage(msg = `Logged in as ${userData.email}.`) {
     let status = document.getElementById("keystatus");
     status.className = "correcttext";;
-    status.innerText = `Logged in as ${userData.email}.`;
+    status.innerText = msg;
 }
 
 function setVaultErrorMessage(msg) {
@@ -152,8 +153,17 @@ function loadConversion(rowIndex) {
     output.style.height = output.scrollHeight + "px";
 }
 
-function deleteConversion(rowIndex) {
-    console.log(`Requested to delete row #${rowIndex + 1}`);
+async function deleteConversion(rowIndex) {
+    var response = await fetch(`${ROOT}/${userData.email}/${rowIndex}`, {
+        method: "DELETE"
+    })
+    if (response.ok) {
+        setVaultSuccessMessage("Deleted, but you can still access this conversion until reloading the page.");
+    }
+    else {
+        setVaultErrorMessage("An error occurred while deleting this conversion.");
+    }
+    return;
 }
 
 function onVaultSuccess() {
@@ -181,7 +191,7 @@ async function onFormSubmit(e) {
         if (!validateURL(formData.get("input"))) { return; }
     }
         
-    response = await fetch(fileInputEnabled ? "http://localhost:3000/submitFile" : "http://localhost:3000/submitURL", {
+    response = await fetch(fileInputEnabled ? `${ROOT}/submitFile` : `${ROOT}/submitURL`, {
         method: "POST",
         headers: fileInputEnabled ? {} : {"Content-Type": "application/json"},
         body: fileInputEnabled ? formData : JSON.stringify(formDataObj)
@@ -210,10 +220,17 @@ async function onUnlock(e) {
     //change this later to access other emails n shit
     const email = document.getElementById("email-input").value
     if (email == "abdaalsy@gmail.com") {
-        const response = await fetch(`http://localhost:3000/${email}`);
-        const result = await response.json();
-        userData = result;
-        onVaultSuccess();
+        const response = await fetch(`${ROOT}/${email}`);
+        if (response.ok) {
+            const result = await response.json();
+            userData = result;
+            onVaultSuccess();
+        }
+        else {
+            const result = await response.json();
+            setVaultErrorMessage(result.message);
+        }
+        
     }
     else {
         setVaultErrorMessage("This email does not exist.");
