@@ -10,7 +10,7 @@ const mainInputStatus = document.getElementById("main-status");
 const unlockForm = document.getElementById("unlock-form");
 const vaultEditForm = document.getElementById("load-delete");
 const saveForm = document.getElementById("save");
-var userData;
+var userData = {};
 let fileInputEnabled = true;
 document.getElementById("submit-vault-edit").disabled = true;
 document.getElementById("save-btn").disabled = true;
@@ -76,7 +76,7 @@ function setVaultDefaultMessage() {
     status.innerText = "Enter your email to begin";
 }
 
-function setVaultSuccessMessage(msg = `Logged in as ${userData.email}.`) {
+function setVaultSuccessMessage(msg) {
     let status = document.getElementById("keystatus");
     status.className = "correcttext";;
     status.innerText = msg;
@@ -151,10 +151,6 @@ function clearVaultData() {
     }
 }
 
-function saveConversion() {
-
-}
-
 function loadConversion(rowIndex) {
     if (rowIndex > userData.conversions.length - 1) { return; }
     output.textContent = userData.conversions[rowIndex].text;
@@ -179,7 +175,14 @@ function onVaultSuccess() {
     document.getElementById("submit-vault-edit").disabled = false;
     document.getElementById("save-btn").disabled = false;
     loadVaultData();
-    setVaultSuccessMessage();
+}
+
+function onVaultFail() {
+    document.getElementById("submit-vault-edit").disabled = true;
+    document.getElementById("save-btn").disabled = true;
+    userData = {};
+    clearVaultData();
+    output.textContent = "";
 }
 
 // event callbacks
@@ -228,22 +231,18 @@ async function onUnlock(e) {
     e.preventDefault();
     //change this later to access other emails n shit
     const email = document.getElementById("email-input").value
-    if (email == "abdaalsy@gmail.com") {
-        const response = await fetch(`${ROOT}/${email}`);
-        if (response.ok) {
-            const result = await response.json();
-            userData = result.document;
-            onVaultSuccess();
-        }
-        else {
-            const result = await response.json();
-            setVaultErrorMessage(result.message);
-        }
-        
+    const response = await fetch(`${ROOT}/${email}`);
+    if (response.ok) {
+        const result = await response.json();
+        userData = result.document;
+        setVaultSuccessMessage(result.message);
+        onVaultSuccess();
     }
     else {
-        setVaultErrorMessage("This email does not exist.");
-    }
+        const result = await response.json();
+        setVaultErrorMessage(result.message);
+        onVaultFail();
+    } 
 }
 
 async function submitVaultEdit(e) {

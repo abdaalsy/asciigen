@@ -73,7 +73,10 @@ app.get(`/:email`, async (req, res) => {
     let collection = client.db("UserData").collection("conversions");
     const email = req.params.email;
     const userDoc = await collection.findOne({"email": email});
-    delete userDoc._id;
+    if (userDoc == null) {
+        res.status(500).json({message: "An error occurred in retrieving user data."});
+        return;
+    }
     await client.close();
     res.status(200).json({document: userDoc, message: `Logged in as ${email}.`});
 })
@@ -98,7 +101,7 @@ app.post(`/:email`, async (req, res) => {
     const collection = client.db("UserData").collection("conversions");
     const userDoc = await collection.findOne({"email": req.params.email});
     if (userDoc.conversions.length >= 10) {
-        res.status(418).json({message: "Cannot save, you have reached the maximum number of conversions"});
+        res.status(418).json({message: "Cannot save, you have reached the maximum number of conversions."});
         await client.close();
         return;
     }
@@ -112,7 +115,7 @@ app.post(`/:email`, async (req, res) => {
             "conversions": userDoc.conversions
         }
     })
-    res.status(200).json({message: "Saved! Changes will be reflected after a page reload"});
+    res.status(200).json({message: "Saved! Changes will be reflected after a page reload."});
     await client.close();
 })
 
