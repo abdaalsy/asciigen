@@ -212,8 +212,7 @@ async function onFormSubmit(e) {
         output.textContent = result.text;
         output.style.height = output.scrollHeight + "px";
         setMainSuccessMessage(result.message);
-    }
-    else {
+    } else {
         result = await response.json();
         setMainErrorStatus(result.message);
     }

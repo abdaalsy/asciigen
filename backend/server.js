@@ -6,16 +6,26 @@ const asciigen = require("./asciigen");
 const { remove } = require("./helper");
 require("dotenv").config();
 const fs = require("fs");
+const {rateLimit} = require("express-rate-limit");
 
 const { MongoClient, ServerApiVersion } = require('mongodb');
 const uri = process.env.MONGO_URI;
 
 const app = express();
 const PORT = 3000;
+const limiter = rateLimit({
+    windowMs: 1000 * 60 * 15,
+    limit: 50,
+    message: "Too many requests, please try again later.",
+    handler: (req, res, next, options) => {
+        res.status(429).json({message: options.message});
+    }
+})
 
 const upload = multer({ dest: "uploads/"});
 app.use(express.static("./frontend"));
 app.use(express.json());
+app.use(limiter);
 app.use(express.urlencoded({ extended: true }));
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
@@ -27,11 +37,19 @@ const client = new MongoClient(uri, {
   }
 });
 
+// generate ascii from URL
 app.post(`/submitURL`, async (req, res) => {
     let txt;
-    const image = await Jimp.read(req.body.input);
+    var image;
+    try {
+        image = await Jimp.read(req.body.input);
+    } catch({name, message}) {
+        res.status(500).json({message: message});
+        return;
+    }
+    
     txt = await asciigen.generateAscii(image);
-    if (txt == null) {
+    if (txt == "" || txt == null) {
         res.status(500).json({message: "An error occurred while processing this request"});
         return;
     }
@@ -41,24 +59,30 @@ app.post(`/submitURL`, async (req, res) => {
     
 })
 
+// generate ascii from File
 app.post(`/submitFile`, upload.single("input"), async (req, res) => {
     if (!req.file) {
         return res.status(400).json({message: "An error occurred in uploading this file."})
     }
     let txt;
-    const image = await Jimp.read(req.file.path);
+    var image;
+
+    try {
+        image = await Jimp.read(req.file.path);
+    } catch({name, message}) {
+        res.status(500).json({message: message});
+        return;
+    }
+    finally {
+        fs.unlink(req.file.path, (err) => {
+            if (err) {
+                console.log(err);
+            }
+        });
+    }
+
     txt = await asciigen.generateAscii(image);
-
-    fs.unlink(req.file.path, (err) => {
-        if (err) {
-            console.log(err);
-        }
-        else {
-            console.log("File was deleted.");
-        }
-    });
-
-    if (txt == null) {
+    if (txt == "" || txt == null) {
         res.status(500).json({message: "An error occurred while processing this request"});
         return;
     }
@@ -68,6 +92,7 @@ app.post(`/submitFile`, upload.single("input"), async (req, res) => {
     
 })
 
+// retrieve user data after unlocking vault
 app.get(`/:email`, async (req, res) => {
     await client.connect();
     let collection = client.db("UserData").collection("conversions");
@@ -81,6 +106,7 @@ app.get(`/:email`, async (req, res) => {
     res.status(200).json({document: userDoc, message: `Logged in as ${email}.`});
 })
 
+// delete from document
 app.delete(`/:email/:index`, async (req, res) => {
     await client.connect();
     let collection = client.db("UserData").collection("conversions");
@@ -96,6 +122,7 @@ app.delete(`/:email/:index`, async (req, res) => {
     res.status(200).json({message: "Deleted! Changes will be reflected after a page reload."})
 })
 
+// add conversion to document
 app.post(`/:email`, async (req, res) => {
     await client.connect();
     const collection = client.db("UserData").collection("conversions");
