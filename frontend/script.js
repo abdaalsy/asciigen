@@ -102,8 +102,8 @@ function validateFile(file) {
         setMainErrorStatus(getSupportedTypesString());
         return false;
     }
-    if (file.size > 1024*1024*32) {
-        setMainErrorStatus("This file is too big! The maximum file size is 32MB");
+    if (file.size > 1024*1024*8) {
+        setMainErrorStatus("This file is too big! The maximum file size is 8MB");
         return false;
     }
     return true;
@@ -205,13 +205,14 @@ async function onFormSubmit(e) {
         body: fileInputEnabled ? formData : JSON.stringify(formDataObj)
     })
     if (response.ok) {
-        result = await response.text();
-        output.textContent = result;
+        result = await response.json();
+        output.textContent = result.text;
         output.style.height = output.scrollHeight + "px";
-        setMainSuccessMessage("Success!");
+        setMainSuccessMessage(result.message);
     }
     else {
-        setMainErrorStatus("An error occurred in processing this request.");
+        result = await response.json();
+        setMainErrorStatus(result.message);
     }
 }
 
@@ -231,7 +232,7 @@ async function onUnlock(e) {
         const response = await fetch(`${ROOT}/${email}`);
         if (response.ok) {
             const result = await response.json();
-            userData = result;
+            userData = result.document;
             onVaultSuccess();
         }
         else {
@@ -275,7 +276,8 @@ async function onSubmitSaveForm(e) {
         })
     })
     if (response.ok) {
-        setVaultSuccessMessage("Saved! Changes will be reflected after reloading the page.");
+        const result = await response.json();
+        setVaultSuccessMessage(result.message);
     }
     else {
         const result = await response.json();
@@ -290,5 +292,3 @@ mainInput.addEventListener("change", onMainInputChange);
 unlockForm.addEventListener("submit", onUnlock);
 vaultEditForm.addEventListener("submit", submitVaultEdit);
 saveForm.addEventListener("submit", onSubmitSaveForm);
-
-

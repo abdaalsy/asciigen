@@ -28,17 +28,26 @@ const client = new MongoClient(uri, {
 });
 
 app.post(`/submitURL`, async (req, res) => {
+    let txt;
     const image = await Jimp.read(req.body.input);
-    let txt = await asciigen.generateAscii(image);
-    res.status(200).send(txt);
+    txt = await asciigen.generateAscii(image);
+    if (txt == null) {
+        res.status(500).json({message: "An error occurred while processing this request"});
+        return;
+    }
+    else {
+        res.status(200).json({text: txt, message: "Success!"});
+    }
+    
 })
 
 app.post(`/submitFile`, upload.single("input"), async (req, res) => {
     if (!req.file) {
-        return res.status(400).json({error: "An error occurred in uploading this file."})
+        return res.status(400).json({message: "An error occurred in uploading this file."})
     }
+    let txt;
     const image = await Jimp.read(req.file.path);
-    let txt = await asciigen.generateAscii(image);
+    txt = await asciigen.generateAscii(image);
 
     fs.unlink(req.file.path, (err) => {
         if (err) {
@@ -49,7 +58,14 @@ app.post(`/submitFile`, upload.single("input"), async (req, res) => {
         }
     });
 
-    res.status(200).send(txt);
+    if (txt == null) {
+        res.status(500).json({message: "An error occurred while processing this request"});
+        return;
+    }
+    else {
+        res.status(200).json({text: txt, message: "Success!"});
+    }
+    
 })
 
 app.get(`/:email`, async (req, res) => {
@@ -57,14 +73,9 @@ app.get(`/:email`, async (req, res) => {
     let collection = client.db("UserData").collection("conversions");
     const email = req.params.email;
     const userDoc = await collection.findOne({"email": email});
-    if (userDoc == null) {
-        res.status(404).json({message: "The user was not found. Later, have this open up a new document."});
-        await client.close();
-        return;
-    }
     delete userDoc._id;
     await client.close();
-    res.status(200).json(userDoc);
+    res.status(200).json({document: userDoc, message: `Logged in as ${email}.`});
 })
 
 app.delete(`/:email/:index`, async (req, res) => {
@@ -79,7 +90,7 @@ app.delete(`/:email/:index`, async (req, res) => {
         }
     });
     await client.close();
-    res.status(200).json()
+    res.status(200).json({message: "Deleted! Changes will be reflected after a page reload."})
 })
 
 app.post(`/:email`, async (req, res) => {
@@ -88,7 +99,7 @@ app.post(`/:email`, async (req, res) => {
     const userDoc = await collection.findOne({"email": req.params.email});
     if (userDoc.conversions.length >= 10) {
         res.status(418).json({message: "Cannot save, you have reached the maximum number of conversions"});
-        client.close();
+        await client.close();
         return;
     }
     await userDoc.conversions.push({
@@ -101,7 +112,7 @@ app.post(`/:email`, async (req, res) => {
             "conversions": userDoc.conversions
         }
     })
-    res.status(200).json();
+    res.status(200).json({message: "Saved! Changes will be reflected after a page reload"});
     await client.close();
 })
 
