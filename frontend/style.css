@@ -143,6 +143,16 @@ fieldset[class~="input-type"] {
 
 #unlock {
     width: 25%;
+    border-width: 1px;
+    border-color:rgb(120, 120, 120);
+}
+
+#unlock:hover {
+    border-color: aquamarine;
+}
+
+#unlock:active {
+    filter: invert(100%);
 }
 
 #vault-data {

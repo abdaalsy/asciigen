@@ -97,12 +97,19 @@ app.get(`/:email`, async (req, res) => {
     await client.connect();
     let collection = client.db("UserData").collection("conversions");
     const email = req.params.email;
-    const userDoc = await collection.findOne({"email": email});
+    var userDoc = await collection.findOne({"email": email});
     if (userDoc == null) {
-        res.status(500).json({message: "An error occurred in retrieving user data."});
-        return;
+        await collection.insertOne({
+            email: email,
+            conversions: []
+        });
+        userDoc = await collection.findOne({"email": email});
     }
     await client.close();
+    if (userDoc == null) {
+        res.status(500).json({message: "There was a problem accessing the vault, please try again."});
+        return;
+    }
     res.status(200).json({document: userDoc, message: `Logged in as ${email}.`});
 })
 
@@ -111,7 +118,8 @@ app.delete(`/:email/:index`, async (req, res) => {
     await client.connect();
     let collection = client.db("UserData").collection("conversions");
     const deleteIndex = Number(req.params.index);
-    const userDoc = await collection.findOne({"email": req.params.email});
+    var userDoc = await collection.findOne({"email": req.params.email});
+    const oldConversionsLength = userDoc.conversions.length;
     const newConversions =  remove(userDoc.conversions, deleteIndex);
     await collection.updateOne({"email": req.params.email}, {
         $set: {
@@ -119,7 +127,13 @@ app.delete(`/:email/:index`, async (req, res) => {
         }
     });
     await client.close();
-    res.status(200).json({message: "Deleted! Changes will be reflected after a page reload."})
+    if (newConversions.length == oldConversionsLength) {
+        res.status(500).json({message: "An error occurred, the conversion was not deleted."});
+        return;
+    }
+    userDoc.conversions = newConversions;
+    console.log(userDoc.conversions);
+    res.status(200).json({document: userDoc, message: "Deleted!"})
 })
 
 // add conversion to document
@@ -127,6 +141,7 @@ app.post(`/:email`, async (req, res) => {
     await client.connect();
     const collection = client.db("UserData").collection("conversions");
     const userDoc = await collection.findOne({"email": req.params.email});
+    console.log(userDoc);
     if (userDoc.conversions.length >= 10) {
         res.status(418).json({message: "Cannot save, you have reached the maximum number of conversions."});
         await client.close();
@@ -142,7 +157,7 @@ app.post(`/:email`, async (req, res) => {
             "conversions": userDoc.conversions
         }
     })
-    res.status(200).json({message: "Saved! Changes will be reflected after a page reload."});
+    res.status(200).json({document: userDoc, message: "Saved!"});
     await client.close();
 })
 

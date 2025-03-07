@@ -158,14 +158,21 @@ function loadConversion(rowIndex) {
 }
 
 async function deleteConversion(rowIndex) {
+    if (rowIndex > userData.conversions.length - 1) { return; }
     var response = await fetch(`${ROOT}/${userData.email}/${rowIndex}`, {
         method: "DELETE"
     })
     if (response.ok) {
-        setVaultSuccessMessage("Deleted, but you can still access this conversion until reloading the page.");
+        const result = await response.json();
+        userData = result.document;
+        console.log(userData);
+        clearVaultData();
+        loadVaultData();
+        setVaultSuccessMessage(result.message);
     }
     else {
-        setVaultErrorMessage("An error occurred while deleting this conversion.");
+        const result = await response.json();
+        setVaultErrorMessage(result.message);
     }
     return;
 }
@@ -228,7 +235,7 @@ function onMainInputChange() {
 
 async function onUnlock(e) {
     e.preventDefault();
-    //change this later to access other emails n shit
+    unlockForm.removeEventListener("submit", onUnlock)
     const email = document.getElementById("email-input").value
     const response = await fetch(`${ROOT}/${email}`);
     if (response.ok) {
@@ -242,6 +249,7 @@ async function onUnlock(e) {
         setVaultErrorMessage(result.message);
         onVaultFail();
     } 
+    unlockForm.addEventListener("submit", onUnlock);
 }
 
 async function submitVaultEdit(e) {
@@ -275,6 +283,8 @@ async function onSubmitSaveForm(e) {
     })
     if (response.ok) {
         const result = await response.json();
+        userData = result.document;
+        loadVaultData();
         setVaultSuccessMessage(result.message);
     }
     else {
