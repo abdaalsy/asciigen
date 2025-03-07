@@ -43,7 +43,6 @@ function enableFileInput() {
         return;
     }
     mainInput.setAttribute("type", "file");
-    mainInputLabel.innerText = "File: ";
     mainInput.style.marginRight = "unset";
     fileInputEnabled = true;
 }
@@ -53,7 +52,6 @@ function enableURLInput() {
         return;
     }
     mainInput.setAttribute("type", "text");
-    mainInputLabel.innerText = "URL: ";
     mainInput.style.marginRight = "4.7em";  // compensate for smaller width of type text pulling the radio buttons and submit button to the left
     fileInputEnabled= false;
 }
@@ -131,8 +129,8 @@ function loadVaultData() {
     for (let i=0; i < userData.conversions.length; i++) {
         let row = rows[i*2 + 1].childNodes;
         // 1: name, 3: date
-        row[1].innerText = userData.conversions[i].name;
-        row[3].innerText = userData.conversions[i].date;
+        row[1].textContent = userData.conversions[i].name;
+        row[3].textContent = userData.conversions[i].date;
     }
 }
 

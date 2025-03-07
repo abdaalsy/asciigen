@@ -10,145 +10,142 @@
     <body>
         <p class="updated">Last Updated: February 27, 2025</p>
         <img id="logo" src="assets/logo.png" alt="ASCIIGEN" />
-        <table id="container">
-            <tbody>
-                <tr>
-                    <td id="about-menu" class="side-menu">
-                        <!-- About section -->
-                        <div class="box">
-                            <h2 class="title-text">ABOUT</h2>
-                            <a href="https://github.com/abdaalsy" target="_blank"><img id="pfp" title="my github" alt="GitHub Profile Picture" src="https://avatars.githubusercontent.com/u/91766228?v=4" /></a>
-                            <p><span class="title-text">HELLO,</span> 
-                                I'm <span class="aqua">Abdaal</span>. I made this program back in early 2023 and recently had an idea to get it on the web. I made some improvements to the algorithm
-                                with the aim to increase visibility.
-                            </p>
-                            <p>Fun facts:</p>
-                            <ul>
-                                <li>I'm from Canada</li>
-                                <li>I study Computer Engineering at the University of Waterloo</li>
-                                <li>I like working with hardware</li>
-                                <li>I watch a lot of instagram reels</li>
-                            </ul>
-                            <p>This is my first website, was trying to recreate the early 2000s look of the internet but ended up doing whatever this is. Credit goes to Ammar for the logo and the buttons.</p>
-                            <p>- Abdaal</p> 
-                        </div>
-                        <div class="box">
-                            <h2 class="title-text">My websites</h2>
-                            <ul>
-                                <li>asciiweb (the website you're looking at)</li>
-                                <li><span class="aqua">Coming soon!</span></li>
-                            </ul>
-                        </div> 
-                    </td>
-                    <td id="main">
-                        <!-- main section -->
-                        <div class="box">
-                            <h2 class="title-text">WELCOME TO ASCIIGEN</h2>
-                            <p>Choose an image file or enter an image url to convert this image into text! Supported file formats include PPM, PNG, JPEG, GIF, TIFF, and BMP.</p>
-                            <!-- Main input form, add action URL! -->
-                             <form id="main-input" method="post">
-                                <label id="input-label" for="input">File: </label>
-                                <input required id="input" type="file" name="input"/>
-                                <label for="file-input">File: <input checked id="file-input" type="radio" name="input-type" value="file"/></label>
-                                <label for="url-input">URL: <input id="url-input" type="radio" name="input-type" value="url"/></label>
-                                <input class="start-button inline" type="image" name="submit" src="assets/startbutton.png" />
-                             </form>
-                             <p id="main-status" class="correcttext">Success!</p>
-                             <textarea id="output" readonly>Output will go here!</textarea>
-                             <!-- TODO: Save form -->
-                              <p>Save your conversion: </p>
-                              <p class="aqua">Must unlock vault first!</p>
-                              <form id="save" method="post">
-                                <label for="save-name">Name: <input id="save-name" required type="text" max="24" name="name"></label>
-                                <button disabled id="save-btn" type="submit">Save</button>
-                              </form>
-                        </div>
-                    </td>
+        <div id="container">
+            <section id="about-menu" class="side-menu">
+                <!-- About section -->
+                <div class="box">
+                    <h2 class="title-text">ABOUT</h2>
+                    <a href="https://github.com/abdaalsy" target="_blank"><img id="pfp" title="my github" alt="GitHub Profile Picture" src="https://avatars.githubusercontent.com/u/91766228?v=4" /></a>
+                    <p><span class="title-text">HELLO,</span> 
+                        I'm <span class="aqua">Abdaal</span>. I made this program back in early 2023 and recently had an idea to get it on the web. I made some improvements to the algorithm
+                        with the aim to increase visibility.
+                    </p>
+                    <p>Fun facts:</p>
+                    <ul>
+                        <li>I'm from Canada</li>
+                        <li>I study Computer Engineering at the University of Waterloo</li>
+                        <li>I like working with hardware</li>
+                        <li>I watch a lot of instagram reels</li>
+                    </ul>
+                    <p>This is my first website, was trying to recreate the early 2000s look of the internet but ended up doing whatever this is. Credit goes to Ammar for the logo and the buttons.</p>
+                    <p>- Abdaal</p> 
+                </div>
+                <div class="box">
+                    <h2 class="title-text">My websites</h2>
+                    <ul>
+                        <li>asciiweb (the website you're looking at)</li>
+                        <li><span class="aqua">Coming soon!</span></li>
+                    </ul>
+                </div> 
+            </section>
+            <section id="main">
+                <!-- generate section -->
+                <div class="box">
+                    <h2 class="title-text">WELCOME TO ASCIIGEN</h2>
+                    <p>Choose an image file or enter an image url to convert this image into text! Supported file formats include PPM, PNG, JPEG, GIF, TIFF, and BMP.</p>
+                    <!-- Main input form, add action URL! -->
+                    <form id="main-input" method="post">
+                        <input required id="input" type="file" name="input"/>
+                        <fieldset>
+                            <label for="input-type">File:<input checked id="file-input" type="radio" name="input-type" value="file"/></label>
+                            <label for="url-input">URL:<input id="url-input" type="radio" name="input-type" value="url"/></label>
+                        </fieldset>    
+                        <input class="start-button inline" type="image" name="submit" src="assets/startbutton.png" />
+                    </form>
+                    <p id="main-status" class="correcttext">Success!</p>
+                    <textarea id="output" readonly>Output will go here!</textarea>
+                    <!-- TODO: Save form -->
+                    <p>Save your conversion: </p>
+                    <p class="aqua">Must unlock vault first!</p>
+                    <form id="save" method="post">
+                        <label for="save-name">Name: <input id="save-name" required type="text" max="24" name="name"></label>
+                        <button disabled id="save-btn" type="submit">Save</button>
+                    </form>
+                </div>
+            </section>
 
-                    <td id="vault-menu" class="side-menu">
-                        <!-- Vault section -->
-                        <div id="vault" class="box">
-                            <h2 class="title-text">VAULT</h2>
-                            <p>
-                                Enter your email to access up to <span class="aqua">10</span> saved conversions! If you haven't entered your 
-                                email before, a vault will be generated.
-                            </p>
-                            <!-- Vault input form -->
-                            
-                            <form id="unlock-form" method="get">
-                                <label class="vault-email" for="email-input">Email: <input required id="email-input" type="email" name="email"></label>
-                                <input id="unlock" type="image" name="unlock" src="assets/button_unlock.png" />
-                            </form>
-                            <p id="keystatus" class="aqua">Enter your email to begin.</p>
-                            <table id="vault-data" class="alternating">
-                                <thead class="aqua">
-                                    <tr>
-                                        <td>Name</td>
-                                        <td><span title="YYYY-MM-DD">Date</span></td>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                    <tr>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                </tbody>    
-                            </table>
-                            <!-- Form for loading/deleting a conversion, might have to figure out the required thing-->
-                            <!-- HTTP method will vary between GET and DELETE -->
-                            <form id="load-delete">
-                                <fieldset>
-                                    <legend>Load/Delete Conversion</legend>
-                                    <label for="row-select">Select row: <input required id="row-select" type="number" name="row-select" min="1" max="10"></label>
-                                    <label for="action-select"> Action:</label>
-                                    <select required id="action-select" name="action-select">
-                                        <option>Load</option>
-                                        <option>Delete</option>
-                                    </select>
-                                    <input disabled id="submit-vault-edit" type="submit" value="Confirm" style="margin-top: 0.5em;">
-                                </fieldset>
-                            </form>
-                        </div>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+            <section id="vault-menu" class="side-menu">
+                <!-- Vault section -->
+                <div id="vault" class="box">
+                    <h2 class="title-text">VAULT</h2>
+                    <p>
+                        Enter your email to access up to <span class="aqua">10</span> saved conversions! If you haven't entered your 
+                        email before, a vault will be generated.
+                    </p>
+                    <!-- Vault input form -->
+                    
+                    <form id="unlock-form" method="get">
+                        <label class="vault-email" for="email-input">Email: <input required id="email-input" type="email" name="email"></label>
+                        <input id="unlock" type="image" name="unlock" src="assets/button_unlock.png" />
+                    </form>
+                    <p id="keystatus" class="aqua">Enter your email to begin.</p>
+                    <table id="vault-data" class="alternating">
+                        <thead class="aqua">
+                            <tr>
+                                <td>Name</td>
+                                <td><span title="YYYY-MM-DD">Date</span></td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><span></span></td>
+                                <td><span></span></td>
+                            </tr>
+                            <tr>
+                                <td><span></span></td>
+                                <td><span></span></td>
+                            </tr>
+                            <tr>
+                                <td><span></span></td>
+                                <td><span></span></td>
+                            </tr>
+                            <tr>
+                                <td><span></span></td>
+                                <td><span></span></td>
+                            </tr>
+                            <tr>
+                                <td><span></span></td>
+                                <td><span></span></td>
+                            </tr>
+                            <tr>
+                                <td><span></span></td>
+                                <td><span></span></td>
+                            </tr>
+                            <tr>
+                                <td><span></span></td>
+                                <td><span></span></td>
+                            </tr>
+                            <tr>
+                                <td><span></span></td>
+                                <td><span></span></td>
+                            </tr>
+                            <tr>
+                                <td><span></span></td>
+                                <td><span></span></td>
+                            </tr>
+                            <tr>
+                                <td><span></span></td>
+                                <td><span></span></td>
+                            </tr>
+                        </tbody>    
+                    </table>
+                    <!-- Form for loading/deleting a conversion, might have to figure out the required thing-->
+                    <!-- HTTP method will vary between GET and DELETE -->
+                    <form id="load-delete">
+                        <fieldset>
+                            <legend>Load/Delete Conversion</legend>
+                            <label for="row-select">Select row: <input required id="row-select" type="number" name="row-select" min="1" max="10"></label>
+                            <label for="action-select"> Action:</label>
+                            <select required id="action-select" name="action-select">
+                                <option>Load</option>
+                                <option>Delete</option>
+                            </select>
+                            <input disabled id="submit-vault-edit" type="submit" value="Confirm" style="margin-top: 0.5em;">
+                        </fieldset>
+                    </form>
+                </div>
+            </section>
+        </div>
         <script src="./script.js"></script>
     </body>
 </html>
