@@ -28,7 +28,11 @@ body {
 }
 
 .side-menu {
-    max-width: 300px;
+    width: 18vw;
+}
+
+#main {
+    width: 36vw;
 }
 
 .aqua {
@@ -102,12 +106,6 @@ body {
     display: inline;
 }
 
-fieldset[class~="input-type"] {
-    display: inline-flex;
-    width: 25%;
-    justify-content: space-between;
-}
-
 .start-button, .start-button img {
     width: 24%;
     margin-top: 0.5em;
@@ -124,6 +122,7 @@ fieldset[class~="input-type"] {
 
 #output {
     font-size: x-small;
+    text-align: center;
     margin-top: 1em;
     width: 98.5%;
     max-width: 98.5%;

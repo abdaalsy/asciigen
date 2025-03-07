@@ -9,7 +9,7 @@ var ASCII_CHARS = [" ", ".", "-", "'", ":", "_", ",", "^", "=", ";", ">", "<", "
     "Y", "x", "j", "y", "a", "]", "2", "E", "S", "w", "q", "k", "P", "6", "h", "9", "d", 
     "4", "V", "p", "O", "G", "b", "U", "A", "K", "X", "H", "m", "8", "R", "D", "#", "$", 
     "B", "g", "0", "M", "N", "W", "Q", "%", "&", "@"];
-// ASCII_CHARS = ASCII_CHARS.reverse();
+ASCII_CHARS = ASCII_CHARS.reverse();
 
 /*
 const DARKNESSES = [0, 0.0751, 0.0829, 0.0848, 0.1227, 0.1403, 0.1559, 0.185, 0.2183, 0.2417, 
@@ -22,8 +22,7 @@ const DARKNESSES = [0, 0.0751, 0.0829, 0.0848, 0.1227, 0.1403, 0.1559, 0.185, 0.
     0.6816, 0.6925, 0.7039, 0.7086, 0.7235, 0.7302, 0.7332, 0.7602, 0.7834, 0.8037, 0.9999];
 */
 const NUM_CHARS = 8;
-const outputMaxWidth = 50;
-const outputMaxHeight = 50;
+const outputWidth = 50;
 
 function getCharSubset() {
     // TODO: implement darkness based subset creation
@@ -41,14 +40,17 @@ function RGBAToChar(rgba, charset) {
 }   
 
 async function generateAscii(image) {
+    image.contrast(0.5);
+    const aspectRatio = image.bitmap.height / image.bitmap.width;
+    const height = Math.floor(outputWidth * aspectRatio);
+    image.resize({w: outputWidth, h: height});
     const charset = getCharSubset();
     let txt = "";
-    image = image.scaleToFit({w: outputMaxWidth, h: outputMaxHeight});
     image.scan((x, y, idx) => {
         let char = RGBAToChar(intToRGBA(image.getPixelColor(x, y)), charset)
         txt += char;
         txt += char;
-        if (x == outputMaxWidth - 1) { txt += "\n"; }
+        if (x == outputWidth - 1) { txt += "\n"; }
     });
     return txt;
 }

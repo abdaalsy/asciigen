@@ -112,20 +112,15 @@ function validateFile(file) {
 function validateURL(text) {
     try {
         let url = new URL(text);
+        console.log(url.href);
         if (!URL.canParse(url)) {
             throw TypeError;
-        }
-        else if(!(url.href.endsWith(".bmp") || url.href.endsWith(".jpg") || url.href.endsWith(".jpeg") || url.href.endsWith(".png"))) {
-            throw MediaError;
         }
         return true;
     }
     catch (error) {
         if (error instanceof TypeError) {
             setMainErrorStatus("Not a valid URL!");
-        }
-        if (error instanceof MediaError) {
-            setMainErrorStatus(getSupportedTypesString());
         }
         return false;
     }
@@ -159,13 +154,12 @@ function loadConversion(rowIndex) {
 
 async function deleteConversion(rowIndex) {
     if (rowIndex > userData.conversions.length - 1) { return; }
-    var response = await fetch(`${ROOT}/${userData.email}/${rowIndex}`, {
+    var response = await fetch(`${ROOT}/data/${userData.email}/${rowIndex}`, {
         method: "DELETE"
     })
     if (response.ok) {
         const result = await response.json();
         userData = result.document;
-        console.log(userData);
         clearVaultData();
         loadVaultData();
         setVaultSuccessMessage(result.message);
@@ -217,6 +211,7 @@ async function onFormSubmit(e) {
     if (response.ok) {
         result = await response.json();
         output.textContent = result.text;
+        output.style.height = "0px";
         output.style.height = output.scrollHeight + "px";
         setMainSuccessMessage(result.message);
     } else {
@@ -237,7 +232,7 @@ async function onUnlock(e) {
     e.preventDefault();
     unlockForm.removeEventListener("submit", onUnlock)
     const email = document.getElementById("email-input").value
-    const response = await fetch(`${ROOT}/${email}`);
+    const response = await fetch(`${ROOT}/data/${email}`);
     if (response.ok) {
         const result = await response.json();
         userData = result.document;
@@ -272,7 +267,7 @@ async function submitVaultEdit(e) {
 async function onSubmitSaveForm(e) {
     e.preventDefault();
     const saveFormData = new FormData(saveForm);
-    const response = await fetch(`${ROOT}/${userData.email}`, {
+    const response = await fetch(`${ROOT}/data/${userData.email}`, {
         method: "POST",
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify({

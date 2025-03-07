@@ -40,7 +40,7 @@
                             </ul>
                         </div> 
                     </td>
-                    <td id="main" style="max-width: 600px;">
+                    <td id="main">
                         <!-- main section -->
                         <div class="box">
                             <h2 class="title-text">WELCOME TO ASCIIGEN</h2>
@@ -49,11 +49,8 @@
                              <form id="main-input" method="post">
                                 <label id="input-label" for="input">File: </label>
                                 <input required id="input" type="file" name="input"/>
-                                <fieldset class="input-type inline">
-                                    <legend>Input type</legend>
-                                    <label for="file-input">File: <input checked id="file-input" type="radio" name="input-type" value="file"/></label>
-                                    <label for="url-input">URL: <input id="url-input" type="radio" name="input-type" value="url"/></label>
-                                </fieldset>
+                                <label for="file-input">File: <input checked id="file-input" type="radio" name="input-type" value="file"/></label>
+                                <label for="url-input">URL: <input id="url-input" type="radio" name="input-type" value="url"/></label>
                                 <input class="start-button inline" type="image" name="submit" src="assets/startbutton.png" />
                              </form>
                              <p id="main-status" class="correcttext">Success!</p>

@@ -3,20 +3,20 @@ const express = require("express");
 const path = require('path');
 const { Jimp } = require("jimp");
 const asciigen = require("./asciigen");
-const { remove } = require("./helper");
 require("dotenv").config();
 const fs = require("fs");
 const {rateLimit} = require("express-rate-limit");
 
 const { MongoClient, ServerApiVersion } = require('mongodb');
 const uri = process.env.MONGO_URI;
+let database;
 
 const app = express();
 const PORT = 3000;
 const limiter = rateLimit({
     windowMs: 1000 * 60 * 15,
     limit: 50,
-    message: "Too many requests, please try again later.",
+    message: "Too many requests! Try again later.",
     handler: (req, res, next, options) => {
         res.status(429).json({message: options.message});
     }
@@ -37,17 +37,35 @@ const client = new MongoClient(uri, {
   }
 });
 
+async function connectDB() {
+    if (!database) {
+        await client.connect();
+        database = client.db("UserData");
+        console.log("Connected to database.");
+    }
+    return database;
+}
+
+function remove(arr, idx) {
+    let newArr = [];
+    for (let i=0; i < arr.length; i++) {
+        if (i != idx) {
+            newArr.push(arr[i]);
+        }
+    }
+    return newArr;
+}
 // generate ascii from URL
 app.post(`/submitURL`, async (req, res) => {
     let txt;
     var image;
     try {
         image = await Jimp.read(req.body.input);
-    } catch({name, message}) {
-        res.status(500).json({message: message});
+    } catch(error) {
+        console.error(error);
+        res.status(500).json({message: error.message});
         return;
     }
-    
     txt = await asciigen.generateAscii(image);
     if (txt == "" || txt == null) {
         res.status(500).json({message: "An error occurred while processing this request"});
@@ -69,8 +87,9 @@ app.post(`/submitFile`, upload.single("input"), async (req, res) => {
 
     try {
         image = await Jimp.read(req.file.path);
-    } catch({name, message}) {
-        res.status(500).json({message: message});
+    } catch(error) {
+        console.error(error);
+        res.status(500).json({message: error.message});
         return;
     }
     finally {
@@ -93,30 +112,37 @@ app.post(`/submitFile`, upload.single("input"), async (req, res) => {
 })
 
 // retrieve user data after unlocking vault
-app.get(`/:email`, async (req, res) => {
-    await client.connect();
-    let collection = client.db("UserData").collection("conversions");
+app.get(`/data/:email`, async (req, res) => {
+    let db = await connectDB();
+    let collection = await db.collection("conversions");
     const email = req.params.email;
     var userDoc = await collection.findOne({"email": email});
     if (userDoc == null) {
-        await collection.insertOne({
-            email: email,
-            conversions: []
-        });
+        try {
+            await collection.insertOne({
+                email: email,
+                conversions: []
+            });
+        } catch(error) {  // catch full database
+            console.error(error);
+            if (error.message.includes("Quota exceeded") || error.message.includes("WriteError")) {
+                return res.status(507).json({ message: "Cannot save, the database is full." }); 
+            }
+            return;
+        }
         userDoc = await collection.findOne({"email": email});
     }
-    await client.close();
     if (userDoc == null) {
-        res.status(500).json({message: "There was a problem accessing the vault, please try again."});
+        res.status(500).json({message: "There was a problem accessing the vault."});
         return;
     }
     res.status(200).json({document: userDoc, message: `Logged in as ${email}.`});
 })
 
 // delete from document
-app.delete(`/:email/:index`, async (req, res) => {
-    await client.connect();
-    let collection = client.db("UserData").collection("conversions");
+app.delete(`/data/:email/:index`, async (req, res) => {
+    let db = await connectDB();
+    let collection = await db.collection("conversions");
     const deleteIndex = Number(req.params.index);
     var userDoc = await collection.findOne({"email": req.params.email});
     const oldConversionsLength = userDoc.conversions.length;
@@ -126,40 +152,53 @@ app.delete(`/:email/:index`, async (req, res) => {
             "conversions": newConversions
         }
     });
-    await client.close();
     if (newConversions.length == oldConversionsLength) {
         res.status(500).json({message: "An error occurred, the conversion was not deleted."});
         return;
     }
     userDoc.conversions = newConversions;
-    console.log(userDoc.conversions);
     res.status(200).json({document: userDoc, message: "Deleted!"})
 })
 
 // add conversion to document
-app.post(`/:email`, async (req, res) => {
-    await client.connect();
-    const collection = client.db("UserData").collection("conversions");
+app.post(`/data/:email`, async (req, res) => {
+    let db = await connectDB();
+    const collection = await db.collection("conversions");
     const userDoc = await collection.findOne({"email": req.params.email});
-    console.log(userDoc);
     if (userDoc.conversions.length >= 10) {
         res.status(418).json({message: "Cannot save, you have reached the maximum number of conversions."});
-        await client.close();
         return;
     }
+    let oldLength = userDoc.conversions.length;
     await userDoc.conversions.push({
         name: req.body.name,
         date: req.body.date,
         text: req.body.text
     });
-    await collection.updateOne({"email": req.params.email}, {
-        $set: {
-            "conversions": userDoc.conversions
+    try {
+        await collection.updateOne({"email": req.params.email}, {
+            $set: {
+                "conversions": userDoc.conversions
+            }
+        })
+    } catch(error) {  // catch if database is full
+        console.error(error);
+        if (error.message.includes("Quota exceeded") || error.message.includes("WriteError")) {
+            return res.status(507).json({ message: "Cannot save, the database is full." }); 
         }
-    })
+        return;
+    }
+    let newLength = userDoc.conversions.length;
+    if (oldLength === newLength) {
+        return res.status(500).json({message: "The conversion was not saved."});
+    }
     res.status(200).json({document: userDoc, message: "Saved!"});
-    await client.close();
 })
 
+process.on("SIGINT", async () => {
+    console.log("Closing MongoDB connection...");
+    await client.close();
+    process.exit(0);
+});
 
 app.listen(PORT, () => { console.log(`Server running at http://localhost:${PORT}`); });
