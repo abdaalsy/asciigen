@@ -1,6 +1,5 @@
 const multer = require("multer");
 const express = require("express");
-const path = require('path');
 const { Jimp } = require("jimp");
 const asciigen = require("./asciigen");
 require("dotenv").config();
