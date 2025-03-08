@@ -2,7 +2,7 @@ const ROOT = "http://localhost:3000";
 const fileInputRadio = document.getElementById("file-input");
 const urlInputRadio = document.getElementById("url-input");
 const mainInput = document.getElementById("input");
-const mainInputLabel = document.getElementById("input-label")
+const mainInputLabel = document.getElementById("main-input-label")
 const mainInputForm = document.getElementById("main-input");
 const output = document.getElementById("output");
 const supportedTypes = ["image/bmp", "image/jpeg", "image/png", "image/tiff"];
@@ -43,6 +43,7 @@ function enableFileInput() {
         return;
     }
     mainInput.setAttribute("type", "file");
+    mainInputLabel.textContent = "File: ";
     mainInput.style.marginRight = "unset";
     fileInputEnabled = true;
 }
@@ -52,6 +53,7 @@ function enableURLInput() {
         return;
     }
     mainInput.setAttribute("type", "text");
+    mainInputLabel.textContent = "URL: ";
     mainInput.style.marginRight = "4.7em";  // compensate for smaller width of type text pulling the radio buttons and submit button to the left
     fileInputEnabled= false;
 }

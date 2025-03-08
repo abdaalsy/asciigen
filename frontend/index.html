@@ -8,9 +8,9 @@
         <title>ASCIIGEN: ASCII Art Generator</title>
     </head>
     <body>
-        <p class="updated">Last Updated: February 27, 2025</p>
+        <p class="updated">Last Updated: March 8, 2025</p>
         <img id="logo" src="assets/logo.png" alt="ASCIIGEN" />
-        <div id="container">
+        <main id="container">
             <section id="about-menu" class="side-menu">
                 <!-- About section -->
                 <div class="box">
@@ -45,9 +45,13 @@
                     <p>Choose an image file or enter an image url to convert this image into text! Supported file formats include PPM, PNG, JPEG, GIF, TIFF, and BMP.</p>
                     <!-- Main input form, add action URL! -->
                     <form id="main-input" method="post">
-                        <input required id="input" type="file" name="input"/>
+                        <div>
+                            <label id="main-input-label" for="input">File: </label>
+                            <input required id="input" type="file" name="input"/>
+                        </div>
+                        
                         <fieldset>
-                            <label for="input-type">File:<input checked id="file-input" type="radio" name="input-type" value="file"/></label>
+                            <label for="file-input">File:<input checked id="file-input" type="radio" name="input-type" value="file"/></label>
                             <label for="url-input">URL:<input id="url-input" type="radio" name="input-type" value="url"/></label>
                         </fieldset>    
                         <input class="start-button inline" type="image" name="submit" src="assets/startbutton.png" />
@@ -145,7 +149,7 @@
                     </form>
                 </div>
             </section>
-        </div>
+        </main>
         <script src="./script.js"></script>
     </body>
 </html>

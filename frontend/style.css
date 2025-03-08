@@ -19,22 +19,87 @@ body {
 }
 
 #container {
-    display: flex;
-    width: 100%;
+    display: grid;
+    grid-template-columns: auto auto auto;
     justify-content: center;
-}
-
-#container section {
-    display: inline-block;
     vertical-align: top;
-}
-
-.side-menu {
-    max-width: 18vw;
+    width: 100%;
 }
 
 #main {
-    width: 36vw;
+    grid-column: 2;
+    grid-row: 1;
+    width: 700px;
+}
+
+#about-menu{
+    grid-column: 1;
+    grid-row: 1;
+}
+
+#vault-menu {
+    grid-column: 3;
+    grid-row: 1;
+}
+
+.side-menu {
+    width: 350px;
+}
+
+#input {
+    margin-right: 0;
+}
+
+@media (max-width: 1366px) and (min-width: 1081px) {
+    #main {
+        grid-column: 1;
+        grid-row: 1;
+        margin: auto;
+        max-width: 50vw;
+        width: 50vw;
+    }
+
+    #about-menu{
+        grid-column: 2;
+        grid-row: 2;
+        margin: auto;
+    }
+
+    #vault-menu {
+        grid-column: 2;
+        grid-row: 1;
+        margin: auto;
+    }
+
+    .side-menu {
+        width: 20vw;
+    }
+}
+
+@media (max-width: 1080px) {
+    #main {
+        grid-column: 1;
+        grid-row: 1;
+        margin: auto;
+        max-width: 80vw;
+        min-width: 420px;
+    }
+
+    #about-menu{
+        grid-column: 1;
+        grid-row: 3;
+        margin: auto;
+    }
+
+    #vault-menu {
+        grid-column: 1;
+        grid-row: 2;
+        margin: auto;
+    }
+
+    .side-menu {
+        width: 350px;
+    }
 }
 
 .aqua {
@@ -73,6 +138,7 @@ body {
     border: 0;
 }
 
+
 #main-status {
     display:  none;
 }
@@ -86,8 +152,8 @@ body {
 
 #logo {
     display:block;
-    margin-left:auto;
-    margin-right:auto;
+    margin: 3em auto;
+    margin-top: 2em;
     width:300px; 
 }
 
@@ -151,7 +217,8 @@ body {
 }
 
 #unlock {
-    width: 25%;
+    margin-bottom: -0.2em;
+    width: 100px;
     border-width: 1px;
     border-color:rgb(120, 120, 120);
 }
