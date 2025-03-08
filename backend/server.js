@@ -11,7 +11,7 @@ const uri = process.env.MONGO_URI;
 let database;
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT;
 const limiter = rateLimit({
     windowMs: 1000 * 60 * 15,
     limit: 50,
@@ -200,4 +200,4 @@ process.on("SIGINT", async () => {
     process.exit(0);
 });
 
-app.listen(PORT, () => { console.log(`Server running at http://localhost:${PORT}`); });
+app.listen(PORT, () => { console.log(`Server listening at port ${PORT}`);});
