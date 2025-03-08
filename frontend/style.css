@@ -1,12 +1,24 @@
-@font-face {font-family:"Pixel NES";src:url("assets/font/Pixel_NES.eot?") format("eot"),url("assets/fontPixel_NES.woff") format("woff"),url("assets/font/Pixel_NES.ttf") format("truetype"),url("assets/font/Pixel_NES.svg") format("svg");font-weight:normal;font-style:normal;}
 * {
     box-sizing: border-box;
+}
+
+@font-face {
+    font-family:"Pixel NES";
+    src: url("assets/font/Pixel_NES.eot?") format("eot"),url("assets/fontPixel_NES.woff") format("woff"),url("assets/font/Pixel_NES.ttf") format("truetype"),url("assets/font/Pixel_NES.svg") format("svg");
+    font-weight:normal;
+    font-style:normal;
+}
+
+@font-face {
+    font-family: tahomaFont;
+    src: url("assets/font/TAHOMA_0.TTF") format("truetype");
+    font-weight: normal;
 }
 
 body {
     background-image: url("assets/bg.webp");
     background-color: black;
-    font-family: 'Tahoma';
+    font-family: "tahomaFont";
     font-size: 12px;
     color:white;
     line-height: 16px;
@@ -82,7 +94,7 @@ body {
         grid-row: 1;
         margin: auto;
         max-width: 80vw;
-        min-width: 420px;
+        min-width: 350px;
     }
 
     #about-menu{
@@ -131,6 +143,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    flex-wrap: wrap;
 }
 
 #main-input fieldset {
