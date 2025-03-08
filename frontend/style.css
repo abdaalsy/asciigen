@@ -207,7 +207,10 @@ body {
 }
 
 #output {
+    font-family:'Courier New', Courier, monospace;
     font-size: x-small;
+    letter-spacing: -0.5px;
+    line-height: 10px;
     text-align: center;
     margin-top: 1em;
     width: 100%;

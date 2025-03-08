@@ -40,7 +40,7 @@ function RGBAToChar(rgba, charset) {
 }   
 
 async function generateAscii(image) {
-    image.contrast(0.8);
+    image.contrast(1);
     const aspectRatio = image.bitmap.height / image.bitmap.width;
     const height = Math.floor(outputWidth * aspectRatio);
     image.resize({w: outputWidth, h: height});
