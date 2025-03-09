@@ -1,4 +1,4 @@
-const ROOT = "https://asciiweb.onrender.com";
+const ROOT = "https://asciigen.xyz";
 const fileInputRadio = document.getElementById("file-input");
 const urlInputRadio = document.getElementById("url-input");
 const mainInput = document.getElementById("input");
