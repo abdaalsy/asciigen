@@ -187,6 +187,12 @@ function onVaultFail() {
 }
 
 // event callbacks
+function copyText() {
+    output.select();
+    navigator.clipboard.writeText(output.value);
+    setMainSuccessMessage("Copied!");
+}
+
 async function onFormSubmit(e) {
     e.preventDefault();
     mainInputStatus.style.display = "none";

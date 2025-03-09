@@ -156,6 +156,11 @@ body {
     border: 0;
 }
 
+#status {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
 
 #main-status {
     display:  none;

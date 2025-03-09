@@ -56,7 +56,10 @@
                         </fieldset>    
                         <input class="start-button inline" type="image" name="submit" src="assets/startbutton.png" />
                     </form>
-                    <p id="main-status" class="correcttext">Success!</p>
+                    <div id="status">
+                        <p id="main-status" class="correcttext">Success!</p>
+                        <button onclick="copyText()">Copy</button>
+                    </div>
                     <textarea id="output" readonly>Output will go here!</textarea>
                     <!-- TODO: Save form -->
                     <p>Save your conversion: </p>
