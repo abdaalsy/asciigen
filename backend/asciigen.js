@@ -21,7 +21,7 @@ const DARKNESSES = [0, 0.0751, 0.0829, 0.0848, 0.1227, 0.1403, 0.1559, 0.185, 0.
     0.5999, 0.6043, 0.6049, 0.6093, 0.6099, 0.6465, 0.6561, 0.6595, 0.6631, 0.6714, 0.6759, 0.6809, 
     0.6816, 0.6925, 0.7039, 0.7086, 0.7235, 0.7302, 0.7332, 0.7602, 0.7834, 0.8037, 0.9999];
 */
-const NUM_CHARS = 6;
+const NUM_CHARS = 8;
 const outputWidth = 50;
 
 function getCharSubset() {
@@ -40,7 +40,7 @@ function RGBAToChar(rgba, charset) {
 }   
 
 async function generateAscii(image) {
-    image.contrast(1);
+    image.contrast(0.5);
     const aspectRatio = image.bitmap.height / image.bitmap.width;
     const height = Math.floor(outputWidth * aspectRatio);
     image.resize({w: outputWidth, h: height});
