@@ -1,4 +1,4 @@
-const ROOT = "http://localhost:3000";
+const ROOT = "https://asciigen.xyz";
 const fileInputRadio = document.getElementById("file-input");
 const urlInputRadio = document.getElementById("url-input");
 const mainInput = document.getElementById("input");
@@ -147,13 +147,13 @@ function clearVaultData() {
 }
 
 function loadConversion(rowIndex) {
-    if (rowIndex > userData.conversions.length - 1) { return; }
-    output.textContent = userData.conversions[rowIndex].text;
+    if (rowIndex > userData.length - 1) { return; }
+    output.textContent = userData[rowIndex].txt;
     output.style.height = output.scrollHeight + "px";
 }
 
 async function deleteConversion(rowIndex) {
-    if (rowIndex > userData.conversions.length - 1) { return; }
+    if (rowIndex > userData.length - 1) { return; }
     var response = await fetch(`${ROOT}/data/${userData.email}/${rowIndex}`, {
         method: "DELETE"
     })
@@ -273,7 +273,7 @@ async function submitVaultEdit(e) {
 async function onSubmitSaveForm(e) {
     e.preventDefault();
     const saveFormData = new FormData(saveForm);
-    const response = await fetch(`${ROOT}/data/${userData.email}`, {
+    const response = await fetch(`${ROOT}/data/${userData[0].email}`, {
         method: "POST",
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify({
@@ -284,7 +284,7 @@ async function onSubmitSaveForm(e) {
     })
     if (response.ok) {
         const result = await response.json();
-        userData = result.document;
+        userData = result.rows;
         loadVaultData();
         setVaultSuccessMessage(result.message);
     }

@@ -24,17 +24,6 @@ app.use(express.json());
 app.use(limiter);
 app.use(express.urlencoded({ extended: true }));
 
-
-function remove(arr, idx) {
-    let newArr = [];
-    for (let i=0; i < arr.length; i++) {
-        if (i != idx) {
-            newArr.push(arr[i]);
-        }
-    }
-    return newArr;
-}
-
 // generate ascii from URL
 app.post(`/submitURL`, async (req, res) => {
     let txt;
@@ -104,60 +93,16 @@ app.get(`/data/:email`, async (req, res) => {
 })
 
 // delete from document
-// app.delete(`/data/:email/:index`, async (req, res) => {
-//     let db = await connectDB();
-//     let collection = await db.collection("conversions");
-//     const deleteIndex = Number(req.params.index);
-//     var userDoc = await collection.findOne({"email": req.params.email});
-//     const oldConversionsLength = userDoc.conversions.length;
-//     const newConversions =  remove(userDoc.conversions, deleteIndex);
-//     await collection.updateOne({"email": req.params.email}, {
-//         $set: {
-//             "conversions": newConversions
-//         }
-//     });
-//     if (newConversions.length == oldConversionsLength) {
-//         res.status(500).json({message: "An error occurred, the conversion was not deleted."});
-//         return;
-//     }
-//     userDoc.conversions = newConversions;
-//     res.status(200).json({document: userDoc, message: "Deleted!"})
-// })
+app.delete(`/data/:email/:index`, async (req, res) => {
+    return res.status(400).json({message: "Sorry! I still need to implement deletion."});
+})
 
 // add conversion to document
-// app.post(`/data/:email`, async (req, res) => {
-//     let db = await connectDB();
-//     const collection = await db.collection("conversions");
-//     const userDoc = await collection.findOne({"email": req.params.email});
-//     if (userDoc.conversions.length >= 10) {
-//         res.status(418).json({message: "Cannot save, you have reached the maximum number of conversions."});
-//         return;
-//     }
-//     let oldLength = userDoc.conversions.length;
-//     await userDoc.conversions.push({
-//         name: req.body.name,
-//         date: req.body.date,
-//         text: req.body.text
-//     });
-//     try {
-//         await collection.updateOne({"email": req.params.email}, {
-//             $set: {
-//                 "conversions": userDoc.conversions
-//             }
-//         })
-//     } catch(error) {  // catch if database is full
-//         console.error(error);
-//         if (error.message.includes("Quota exceeded") || error.message.includes("WriteError")) {
-//             return res.status(507).json({ message: "Cannot save, the database is full." }); 
-//         }
-//         return;
-//     }
-//     let newLength = userDoc.conversions.length;
-//     if (oldLength === newLength) {
-//         return res.status(500).json({message: "The conversion was not saved."});
-//     }
-//     res.status(200).json({document: userDoc, message: "Saved!"});
-// })
+app.post(`/data/:email`, async (req, res) => {
+    const email = req.params.email;
+    await client.query("INSERT INTO users (email, name, date, txt) VALUES ($1, $2, CURRENT_DATE, $3)", [email, req.body.name, req.body.text]);
+    return res.status(200).json({rows: await getData(email), message: "Saved!"});
+})
 
 process.on("SIGINT", async () => {
     console.log("Closing database connection...");
