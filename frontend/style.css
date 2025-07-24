@@ -21,6 +21,7 @@
 }
 
 body {
+    position: relative;
     background-image: url("assets/bg.webp");
     background-color: black;
     font-family: "tahomaFont";
@@ -178,6 +179,12 @@ body {
     margin: 3em auto;
     margin-top: 2em;
     width:300px; 
+}
+
+#splash-text {
+    width: 100%;
+    text-align: center;
+    margin-top: -1vh;
 }
 
 #pfp {

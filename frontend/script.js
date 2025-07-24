@@ -1,4 +1,4 @@
-const ROOT = "https://asciigen.xyz";
+const ROOT = "http://localhost:3000";
 const fileInputRadio = document.getElementById("file-input");
 const urlInputRadio = document.getElementById("url-input");
 const mainInput = document.getElementById("input");
@@ -10,7 +10,7 @@ const mainInputStatus = document.getElementById("main-status");
 const unlockForm = document.getElementById("unlock-form");
 const vaultEditForm = document.getElementById("load-delete");
 const saveForm = document.getElementById("save");
-var userData = {};
+var userData;
 let fileInputEnabled = true;
 document.getElementById("submit-vault-edit").disabled = true;
 document.getElementById("save-btn").disabled = true;
@@ -128,11 +128,11 @@ function validateURL(text) {
 
 function loadVaultData() {
     let rows = document.querySelector(`#vault-data tbody`).childNodes;
-    for (let i=0; i < userData.conversions.length; i++) {
+    for (let i=0; i < userData.length; i++) {
         let row = rows[i*2 + 1].childNodes;
         // 1: name, 3: date
-        row[1].textContent = userData.conversions[i].name;
-        row[3].textContent = userData.conversions[i].date;
+        row[1].textContent = userData[i].name;
+        row[3].textContent = userData[i].date;
     }
 }
 
@@ -241,7 +241,7 @@ async function onUnlock(e) {
     const response = await fetch(`${ROOT}/data/${email}`);
     if (response.ok) {
         const result = await response.json();
-        userData = result.document;
+        userData = result.rows;
         setVaultSuccessMessage(result.message);
         onVaultSuccess();
     }
