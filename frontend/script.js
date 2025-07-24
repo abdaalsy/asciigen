@@ -1,4 +1,4 @@
-const ROOT = "https://asciigen.xyz";
+const ROOT = "http://asciigen.xyz";
 const fileInputRadio = document.getElementById("file-input");
 const urlInputRadio = document.getElementById("url-input");
 const mainInput = document.getElementById("input");
@@ -10,7 +10,7 @@ const mainInputStatus = document.getElementById("main-status");
 const unlockForm = document.getElementById("unlock-form");
 const vaultEditForm = document.getElementById("load-delete");
 const saveForm = document.getElementById("save");
-var userData;
+var userData, email;
 let fileInputEnabled = true;
 document.getElementById("submit-vault-edit").disabled = true;
 document.getElementById("save-btn").disabled = true;
